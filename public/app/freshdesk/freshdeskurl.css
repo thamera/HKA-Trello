@@ -1,0 +1,39 @@
+#freshdesk_auth input {
+  background: white;
+  margin-bottom: 0px;
+}
+
+#apiKey_success, #apiKey_success {
+ font-size: 12px;
+  line-height: 12px;
+}
+
+.freshdesk_ticket {
+  border-bottom: solid 1px #c5c5c5;
+  margin-bottom: 10px;
+}
+
+.freshdesk_ticket h1 {
+  font-size: 1.25em;
+}
+
+.freshdesk_ticket_details >span {
+  display: inline-block;
+  margin: 5px 5px 5px 0px;
+  padding: 5px;
+  
+}
+
+.freshdesk_ticket_conv>div {
+  background-color: white;
+  padding: 5px;
+  border: inset;
+}
+
+.freshdesk_ticket_conv_head {
+  font-size: 1.25em
+}
+
+.freshdesk_ticket_conv_head strong{
+  font-size: 1.5em
+}

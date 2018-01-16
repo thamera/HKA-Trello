@@ -1,0 +1,321 @@
+body {
+    
+    overflow-x: hidden;
+    background: -moz-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+    background: -webkit-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+    background: linear-gradient(to top, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+    background-image: url("http://trelloapp.hka-tech.com/images/hka-background.jpg");
+    background-position-y: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+section, article, aside, footer, header, nav, hgroup {
+    display: block;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    body {
+        min-width: 900px;
+        min-height: 800px;
+        overflow-x: hidden;
+        background: -moz-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+        background: -webkit-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+        background: linear-gradient(to top, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        min-width: 1150px;
+        min-height: 800px;
+        overflow-x: hidden;
+        background: -moz-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+        background: -webkit-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+        background: linear-gradient(to top, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
+    }
+}
+
+.btn-responsive {
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+
+.spacer {
+    margin-top: 10px;
+}
+
+.fade-back {
+    background: -moz-linear-gradient(right, rgba(255,255,255,.9), rgba(253,253,253,.6) );
+    background: -webkit-linear-gradient(right, rgba(255,255,255,.9), rgba(253,253,253,.6));
+    background: linear-gradient(to left, rgba(244,249,249,.9), rgba(244,249,249,.6));
+    border: solid #ddd 1px;
+    border-radius: 10px;
+}
+
+.app-title img {
+    padding-right: 10px;
+}
+
+.app-title h2 {
+    color: rgb(40,40,111);
+    font-weight: bold;
+}
+
+header .navbar-toggle-always {
+    background: linear-gradient(to bottom,rgb(255, 255, 255) 0,rgb(218, 220, 220) 100%);
+    margin: 0;
+}
+
+.navbar-toggle-always {
+  position: relative;
+  float: right;
+  margin-right: 15px;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.nav-bars i, .nav-back i {
+    color: rgb(40,40,111);
+}
+
+header .navbar-toggle-always:hover {
+    background: linear-gradient(to bottom,rgb(241, 241, 241) 0,rgb(169, 169, 169) 100%);
+}
+
+    header .navbar-toggle-always:hover .nav-bars i, header .navbar-toggle-always:hover .nav-back i {
+        color: #992135;
+    }
+
+.aside-menu-content {
+    position: relative !important;
+}
+
+.aside-menu {
+    background: none !important;
+    overflow: visible !important;
+}
+
+.nav-back {
+    display: none;
+}
+
+.nav-open .nav-back {
+    display: block;
+}
+
+.nav-open .nav-bars {
+    display: none;
+}
+
+/*.jumbotron{
+    background: rgb(219, 231, 251);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: inset 0 -10px 40px rgba(0,0,0,.15);
+}*/
+
+.sidebar-module {
+    margin-bottom: 20px;
+}
+
+    .sidebar-module li a {
+        background: linear-gradient(to bottom,rgba(255, 255, 255, 0.8) 0,rgba(218, 220, 220, 0.8) 100%);
+    }
+
+    .sidebar-module li.active a {
+        background-image: none;
+        background: #337ab7;
+    }
+
+    .sidebar-module li a:hover {
+        background-image: none;
+        background: #337ab7;
+        color: white;
+    }
+
+.nav-stacked > li + li {
+    margin-top: 10px;
+}
+
+.logo {
+    max-width: 100px;
+}
+
+.view-content > .row {
+    margin-left: 0;
+}
+
+.view-content .home-updates > li:first-child {
+    color: maroon;
+}
+
+.home-updates .home-version {
+    font-weight: bold;
+}
+
+.hill-buttons-disabled {
+    color: red;
+}
+
+    .hill-buttons-disabled select {
+        display: none;
+    }
+
+.hill-buttons {
+    background: -webkit-linear-gradient(top,#fff 0,#f8f9f9 100%);
+    background: linear-gradient(to bottom,#fff 0,#f8f9f9 100%);
+    margin-bottom: 6px;
+    border: 1px solid #e2e4e6;
+    border-bottom-color: #cdd2d4;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 6px;
+    padding: 7px;
+}
+
+    .hill-buttons:hover {
+        background: #298fca;
+        border-color: #298fca;
+    }
+
+        .hill-buttons:hover, .hill-buttons:hover span, .hill-buttons:hover select {
+            color: white;
+        }
+
+            .hill-buttons:hover optgroup, .hill-buttons:hover option {
+                color: #4d4d4d;
+            }
+
+    .hill-buttons > span {
+        color: #8c8c8c;
+        display: block;
+        font-size: 12px;
+        line-height: 14px;
+        margin-bottom: 0;
+        font-weight: 700;
+    }
+
+        .hill-buttons > span:hover {
+            color: white;
+        }
+
+    .hill-buttons select {
+        background: transparent;
+        cursor: pointer;
+        border: none;
+        box-shadow: none;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+        .hill-buttons select:focus {
+            box-shadow: none;
+        }
+
+.hill-buttons-submit {
+    background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+    color: #fff;
+    box-shadow: 0 1px 0 #3f6f21;
+    padding-left: 30px;
+    padding-right: 30px;
+    border: none;
+    font-weight: 700;
+}
+
+    .hill-buttons-submit:hover {
+        background: linear-gradient(to bottom, #5aac44 0, #519839 100%);
+        color: #fff;
+        font-weight: 700;
+    }
+
+.checklistGrid {
+    margin-bottom: 6px;
+}
+
+.ui-grid-disabled {
+    color: silver;
+    text-decoration: line-through;
+}
+
+.customSettings-List {
+    min-height: 50px;
+}
+
+    .customSettings-List, .customSettings-List > li {
+        position: relative;
+    }
+
+        .customSettings-List .dndPlaceholder {
+            display: block;
+            background-color: #ddd;
+            min-height: 42px;
+        }
+
+        .customSettings-List li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+            display: block;
+            padding: 5px 10px;
+            margin-bottom: -1px
+        }
+
+            .customSettings-List li.selected {
+                background-color: #dff0d8;
+                color: #3c763d;
+            }
+
+        .customSettings-List .handle {
+            cursor: move;
+            position: absolute;
+            top: 4px;
+        }
+
+        .customSettings-List .name {
+            margin-left: 20px;
+        }
+
+        .customSettings-List .float-right {
+            /*position: absolute;
+    right: 12px;
+    top: 4px;*/
+            text-align: right;
+        }
+
+        .customSettings-List .list-delete {
+            cursor: pointer;
+            color: darkred;
+        }
+
+        .customSettings-List .list-add {
+            color: green;
+        }
+
+.customSettingsForm, .customSettingsForm .form-control {
+    font-size: 12px;
+}
+
+    .customSettingsForm .form-control, .customSettingsForm .form-control > div {
+        max-height: 20px;
+    }
+
+    .customSettingsForm select.form-control {
+        padding: 0 6px;
+    }
+
+.form-inline .form-group {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.customSettings-milestone {
+    min-width: 300px;
+}

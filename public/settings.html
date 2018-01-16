@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://trello.com/power-ups/power-up.css">
+    <script src="https://trello.com/power-ups/power-up.min.js"></script>
+  </head>
+</html>
+<body>
+  <div id="content">
+    <p>
+       Select the standard date format for reporting
+    </p>
+    <select id="hka_dateformat">
+        <option value="short">US Short (9/3/10 12:05 PM)</option>
+        <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
+        <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
+        <option value="longDate">US Long Date (September 3, 2010)</option>
+        <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
+        <option value="shortDate">US Short Date (9/3/10)</option>
+        <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
+        <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
+        <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
+        <option value="d MMM y">Std Long Date (3 September 2010)</option>
+        <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
+        <option value="d/M/yy">Std Short Date (3/9/10)</option>
+    </select>
+    <p>
+      Milestone Schedule List
+    </p>
+    <select id="hka_milestonelist">
+      
+    </select>
+    <p>
+      Risk Management List
+    </p>
+    <select id="hka_risklist">
+      
+    </select>
+    <p>
+      Freshdesk API URL <br />(e.g. https://hka-tech.freshdesk.com/api)
+    </p>
+    <input type="url" id="hka_freshdeskurl" />
+    <button id="save" class="mod-primary">Save</button>
+  </div>
+  <script src="./js/settings.js"></script>
+</body>

@@ -1,0 +1,65 @@
+<div ng-controller="mysettingsCtrlAs as mysettings">
+    <h3 class="text-center"><small>{{mysettings.title}}</small></h3>
+    <div class="row spacer">
+        <div class="col-xs-12">
+            <div id="mysettings">
+                <div class="well">
+                    <h3>HKA Trello App General Settings</h3>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dl class="dl-horizontal">
+                                <dt>Trello Board:</dt>
+                                <dd>{{mysettings.settings.board.name}}</dd>
+                                <dt>App Settings:</dt>
+                                <dd>
+                                    <div ng-repeat="(key,perm) in mysettings.context.permissions">
+                                        {{key}}: {{perm}}
+                                    </div>
+                                </dd>
+                                <dt>Date Format:</dt>
+                                <dd>{{mysettings.settings.board.hka_dateformat}}</dd>
+                                <dt>Freshdesk API URL:</dt>
+                                <dd>{{mysettings.settings.board.hka_freshdeskurl}}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <h3>My App Settings</h3>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <strong>Trello Token:</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {{mysettings.settings.member.token}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button type="button" ng-click="mysettings.removeTrello()">
+                                Remove Trello Permissions
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row spacer">
+                        <div class="col-xs-12">
+                            <strong>Freshdesk API Key:</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {{mysettings.settings.member.freshdeskApiKey}}
+                        </div>
+                    </div>
+                    <div class="row spacer">
+                        <div class="col-xs-12">
+                            <button type="button" ng-click="mysettings.removeFreshdesk()">
+                                Remove Freshdesk Key
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
