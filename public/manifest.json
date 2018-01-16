@@ -1,0 +1,24 @@
+{
+  "name": "Trello for HKA-Tech",
+  "details":"A Power-Up for implementataion management at HKA",
+  "icon": {
+    "url": "https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2FHKA-Caret.jpg?1504382839822"
+  },
+  "author": "Travis Hamera, HKA-Tech",
+  "capabilities": [
+    "authorization-status",
+    "attachment-sections",
+    "board-buttons",
+    "callback",
+    "card-buttons",
+    "card-badges",
+    "card-detail-badges",
+    "show-authorization",
+    "show-settings"
+  ],
+  "connectors": {
+    "iframe": {
+      "url": "./powerup.html"
+    }
+  }
+}

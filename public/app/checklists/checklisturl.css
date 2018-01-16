@@ -1,0 +1,105 @@
+.hka_checklistAttachment {
+  background-image: linear-gradient(0deg,rgba(252,252,252,0.7) 50%,rgba(252,252,252,0.7) 0%),url(https://trello-backgrounds.s3.amazonaws.com/539f69bdff79fbf484dbd79d/256x192/44341270b8c17ad7d87f39e43f9f4612/Trello_Background.png);
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 248px;
+  background-position: bottom;
+  background-size: 100% 40px,cover;
+}
+
+.hka_checklistAttachment>a {
+  margin: 8px 8px 0 8px;
+  width: calc(100% - 16px);
+  background-color: #FFF;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 0 0 #E2E4E6;
+  padding-bottom: 8px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+}
+
+.hka_checklistAttachment>a:hover {
+  background-color: #EDEFF0;
+  cursor: pointer;
+  color: #111;
+}
+
+.hka_checklistAttachment>a>h1 {
+  color: #4d4d4d;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+    padding: 8px 8px 0;
+    word-wrap: break-word;
+}
+.hka_checklistAttachment>a>div {
+    margin-top: 4px;
+    padding: 0 8px;
+}
+.hka_checklistAttachment>a>div>span {
+      margin-top: 4px;
+    margin-right: 8px;
+  background-color: transparent;
+    color: #959DA1;
+    border-radius: 3px;
+    display: inline-block;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    height: 16px;
+    -webkit-letter-spacing: -0.3px;
+    -moz-letter-spacing: -0.3px;
+    -ms-letter-spacing: -0.3px;
+    letter-spacing: -0.3px;
+    line-height: 16px;
+    padding: 0 0;
+}
+
+.hka_checklistAttachment_list {
+  color: #4d4d4d;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 12px;
+  height: 16px;
+  -webkit-letter-spacing: -0.3px;
+  -moz-letter-spacing: -0.3px;
+  -ms-letter-spacing: -0.3px;
+  letter-spacing: -0.3px;
+  padding: 4px 8px;
+}
+.hka_checklistAttachment_list h1 {
+  display: inline-block;
+    font-size: inherit;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    top: 1px;
+    white-space: nowrap;
+}
+.hka_checklistAttachment_list h2 {
+  display: inline-block;
+    font-size: inherit;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    top: 1px;
+    white-space: nowrap;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-weight: normal;
+}

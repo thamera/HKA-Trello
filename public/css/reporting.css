@@ -1,0 +1,165 @@
+/* Font Definitions */
+
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-priority:99;
+	mso-style-link:"Header Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 3.25in right 6.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-priority:99;
+	mso-style-link:"Footer Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 3.25in right 6.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle {
+    mso-style-priority:10;
+    mso-style-undhide:no;
+    mso-style-qformat:yes;
+    mso-add-space:auto;
+    text-align: center;
+    page-break-before: always;
+}
+/* Page Definitions */
+ @page
+	/*{mso-footnote-separator:url("__headerpath__") fs;
+	mso-footnote-continuation-separator:url("__headerpath__") fcs;
+	mso-endnote-separator:url("__headerpath__") es;
+	mso-endnote-continuation-separator:url("__headerpath__") ecs;}*/
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	/*mso-header:url("__headerpath__") h1;
+	mso-footer:url("__headerpath__") f1;*/
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+
+.reportviewer {
+    background-color: white;
+    border: inset 3px;
+}
+.reportcontent{
+    font-family: Calibri;
+    font-size: 1em; /*12pt*/
+}
+.reportcontent h1 {
+    text-align: center;
+    font-size: 1.3333em; /*16px*/
+    border-bottom: 4px  #622423;
+    margin-top:0px;
+    font-weight:normal;
+}
+
+.reportcontent h2 {
+    text-align: center;
+    font-size: 1.3333em; /*16px*/
+    font-weight: bold;
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.reportcontent h3 {
+    text-align: left;
+    font-size: 1.1667em; /*14px*/
+    font-weight: bold;
+}
+.milestone-table tr.header-row {
+    background-color: #8DB3E2;
+}
+.milestone-table th>div, .milestone-table td>div {
+    padding: 0 5px;
+}
+.milestone-table{
+	font-family: Calibri;
+	font-size: 0.9166em; /*11px*/
+	
+}
+.milestone-table, .milestone-table th, .milestone-table td {
+	border-collapse: collapse;
+	border: 1px solid #D9D9D9;
+}
+.reportcontent .center-table {
+	text-align: center;
+	vertical-align: top;
+	width: 100px;
+}
+.reportcontent .table-status {
+	width: 25px;
+	text-align: center;
+}
+.reportcontent .table-check {
+	width: 25px;
+	text-align: center;
+}
+.reportcontent .text-center {
+    text-align: center;
+}
+
+/* Card Printer Styles */
+.cardprint-headings h1, cardprint-headings h2, cardprint-headings h3 {
+    font-weight: bold;
+    color: black;
+    text-decoration:underline;
+}
+.cardprint-headings span{
+    color: black;
+}
+.cardprint-checkitem{padding-left: 5px;}
+.cardprint-checked{ text-decoration:line-through;}
+
+table.cardprint-labels{
+    border-spacing:24px;
+    border-collapse:separate;
+}
+.cardprint-desc {
+    border: solid black 1px;
+    padding: 5px 20px;
+}
+.cardprint-desc h1, .cardprint-desc h2, .cardprint-desc h3 {
+    text-align: left;
+}
+.cardprint-attach {
+    
+}
+.cardprint-attach ul {
+    list-style:none;
+    display: inline-block;
+}
+.cardprint-attach li {
+    position: relative;
+    display: inline;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 50px;
+    height: 70px;
+    margin:0 5px;
+}
+.cardprint-attach a {
+    background-repeat: no-repeat;
+    background-size:contain;
+}

@@ -1,0 +1,25 @@
+{
+  "name": "hka-trello",
+  "version": "2.0.0",
+  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ],
+  "author": "Travis Hamera, HKA-Tech",
+  "dependencies": {
+    "express": "^4.16.2",
+    "cors": "^2.8.3",
+    "officegen": "^0.4.5"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {},
+  "license": "MIT"
+}

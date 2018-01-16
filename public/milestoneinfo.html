@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://trello.com/power-ups/power-up.css">
+    <style>
+      select { height: 30px; }
+    </style>
+    <script src="https://trello.com/power-ups/power-up.min.js"></script>
+  </head>
+  <body>
+    <form id="milestoneForm">
+      <label for="milestoneStatus">Status</label>
+      <select name="milestoneStatus" id="milestoneStatus">
+        <option>On Track</option>
+        <option>At Risk</option>
+        <option>Behind Schedule</option>
+        <option>Defered/On Hold</option>
+      </select>
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate">
+      <label for="anticipatedDate">Anticipated Completion:</label>
+      <input type="date" id="anticipatedDate">
+      <label for="actualDate">Actual Completion:</label>
+      <input type="date" id="actualDate">
+      <br />
+      <button type="submit" class="mod-primary">Save</button>
+    </form>
+    <script src="./js/milestoneinfo.js"></script>
+  </body>
+</html>

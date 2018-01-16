@@ -1,0 +1,207 @@
+<div ng-controller="sprintreportCtrlAs as vm">
+    <h2 class="text-center"><small>{{vm.title}}</small></h2>
+    <div class="row spacer">
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-success btn-block btn-responsive" ng-click="vm.exportWord()">Generate Report</button>
+        </div>
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-success btn-block btn-responsive" ng-click="vm.postToTrello()">Upload Report</button>
+        </div>
+        <div class="col-xs-4">
+            <div ng-switch="vm.report.custom.id">
+                <button type="button" ng-switch-default class="btn btn-success btn-block btn-responsive" ng-click="vm.customSettings()">{{vm.settingsBtn}} Custom settings</button>
+                <button type="button" ng-switch-when="undefined" class="btn btn-success btn-block btn-responsive" ng-click="vm.customSettings()">Create custom settings</button>
+            </div>
+        </div>
+    </div>
+    <div class="row spacer" ng-if="vm.showSettings">
+        <div class="col-xs-12">
+            <form name="customSettingsForm" class="customSettingsForm form-horizontal">
+                <div class="col-xs-12">
+                    <label>General Settings</label>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Date Format</label>
+                            <select ng-model="vm.report.board.hka_dateformat" class="form-control" ng-change="vm.updateSetting('hka_dateformat');">
+                                <option value="short">US Short (9/3/10 12:05 PM)</option>
+                                <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
+                                <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
+                                <option value="longDate">US Long Date (September 3, 2010)</option>
+                                <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
+                                <option value="shortDate">US Short Date (9/3/10)</option>
+                                <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
+                                <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
+                                <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
+                                <option value="d MMM y">Std Long Date (3 September 2010)</option>
+                                <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
+                                <option value="d/M/yy">Std Short Date (3/9/10)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reported Lists</label>
+                        <!--<button type="button" class="btn btn-success" ng-click="vm.test()">Test</button>-->
+                        <!--<div ng-repeat="checklist in vm.report.custom.checklists | filter: { name: 'Reported Lists'}">-->
+                        <ul class="customSettings-List" dnd-list="vm.report.board.hka_reportedLists">
+                            <li ng-repeat="list in vm.report.board.hka_reportedLists"
+                                dnd-draggable="list"
+                                dnd-moved="vm.report.board.hka_reportedLists.splice($index,1);"
+                                dnd-dragend="vm.reorderList();"
+                                dnd-effect-allowed="move"
+                                dnd-selected="vm.report.custom.selectedList = list"
+                                ng-class="{'selected' : vm.report.custom.selectedList === list}">
+                                <div dnd-handle class="handle">:::</div>
+                                <div class="name">{{list.listName}}</div>
+                                <input type="text" ng-model="list.title" ng-change="vm.updateList(list);" placeholder="Report element title (if different from card name)" class="form-control" />
+                                <div class="float-right">
+                                    <input ng-model="list.groupbylabels" ng-change="vm.updateList(list);" type="checkbox"> Grp By Labels |
+                                    <input ng-model="list.includechecklists" ng-change="vm.updateList(list);" type="checkbox"> Checklists |
+                                    <input ng-model="list.includedescription" ng-change="vm.updateList(list);" type="checkbox"> Description |
+                                    <input ng-model="list.includecomments" ng-change="vm.updateList(list);" type="checkbox"> Comments |
+                                    <i class="list-delete glyphicon glyphicon-minus-sign" ng-click="vm.deleteList(list)"></i>
+                                </div>
+                            </li>
+                            <li dnd-disable-if="return true">
+                                Add Item
+                                <select ng-model="vm.settings.addListSelection">
+                                    <option ng-repeat="(key, list) in vm.report.board.lists" value="{{key}}">{{list.name}}</option>
+                                </select>
+                                <i class="list-add glyphicon glyphicon-plus-sign" ng-click="vm.addList()" ;></i>
+                            </li>
+                        </ul>
+                      <button type="button" class="btn btn-success btn-block btn-responsive" ng-click="vm.resetLists()">Reset Lists To Default Setting</button>
+                    </div>
+                    <hr />
+                </div>
+                <!--<div class="col-xs-12">
+                    <div class="form-group">
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary btn-lg" ng-disabled="!vm.report.custom.updateList" ng-click="vm.submit()">Save Settings</button>
+                        </div>
+                    </div>
+                </div>-->
+            </form>
+        </div>
+    </div>
+    <form name="reportFields" class="form-horizontal spacer">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-2">
+                    <label>#</label>
+                    <input type="text" ng-model="vm.report.board.hka_sprintnumber" ng-change="vm.updateSetting('hka_sprintnumber')" class="form-control" /><!--vm.report.model.sprint-->
+                </div>
+                <div class="col-xs-5">
+                    <label>Sprint Start</label>
+                    <input type="date" ng-model="vm.report.board.hka_sprintstart" ng-change="vm.updateSetting('hka_sprintstart')" class="form-control" value="{{vm.report.board.hka_sprintstart | date: 'yyyy-MM-dd'}}" />
+                </div>
+                <div class="col-xs-5">
+                    <label>Sprint End</label>
+                    <input type="date" ng-model="vm.report.board.hka_sprintend" ng-change="vm.updateSetting('hka_sprintend')" class="form-control" value="{{vm.report.board.hka_sprintend | date: 'yyyy-MM-dd'}}" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row spacer">
+        <div class="col-xs-12 reportviewer">
+            <div id="reportcontent">
+                <div class="reportcontent">
+                    <div style="text-align: center;"><img ng-src="{{vm.report.board.hka_clientlogo}}" crossorigin="Anonymous" width="225" height="75" /></div>
+                    <h2>{{vm.report.board.name}}</h2>
+                    <h1>PMWeb Implementation Sprint Review</h1>
+                    <h2>SPRINT #{{vm.report.board.hka_sprintnumber}}</h2>
+                    <div class="text-center">
+                        ({{vm.report.board.hka_sprintstart | date: vm.report.board.hka_dateformat }} - {{vm.report.board.hka_sprintend | date: vm.report.board.hka_dateformat }})
+                    </div>
+                  <h3>
+                    HIGH LEVEL MILESTONE SCHEDULE
+                  </h3>
+                  <table class="milestone-table" border="1" width="100%">
+                    <tr class="header-row">
+                            <th><div><i class="glyphicon glyphicon-check"></i></div></th>
+                            <th></th>
+                            <th><div>Status/Milestone</div></th>
+                            <th class="center-table"><div>Anticipated Completion Date</div></th>
+                            <th class="center-table"><div>Actual Completion Date</div></th>
+                    </tr>
+                    <tr ng-repeat="card in vm.report.board.cards | filter: {isMilestone: true} | orderBy: 'pos'">
+                      <td class="table-check">
+                        <div ng-switch="card.milestone_state">
+                                    <b ng-switch-default class="">&#x2610;</b>
+                                    <b ng-switch-when="Complete" class="">&#x2611;</b>
+                        </div>
+                      </td>
+                      <td class="table-status" ng-style="{color: vm.statusColor(card.milestone_status)}"><div><b>&#11044;</b></div></td>
+                      <td>{{card.name}}</td>
+                      <td class="center-table"><div>{{card.milestone_anticipated | dateFilter: vm.report.board.hka_dateformat}}</div></td>
+                      <td class="center-table"><div>{{card.milestone_actual | dateFilter: vm.report.board.hka_dateformat}}</div></td>
+                    </tr>
+                  </table>
+                    <div ng-repeat="reportedLists in vm.report.board.hka_reportedLists">
+                      <div ng-repeat="includedlist in vm.report.board.lists | filter: { id: reportedLists.listId}">
+                            <div ng-switch="reportedLists.title">
+                                <h3 ng-switch-default>{{reportedLists.title | uppercase}}</h3>
+                                <h3 ng-switch-when="">{{reportedLists.listName | uppercase}}</h3>
+                                <h3 ng-switch-when="undefined">{{reportedLists.listName | uppercase}}</h3>
+                            </div>
+                            <div ng-switch="reportedLists.groupbylabels">
+                                <div ng-switch-when="false">
+                                    <ul>
+                                        <li ng-repeat="card in vm.report.board.cards | filter: {idList: includedlist.id}">
+                                            {{card.name}}
+                                            <div class="sprint-desc" ng-if="reportedLists.includedescription === true">
+                                                <br />
+                                                <p markdown-to-html="card.desc"></p>
+                                            </div>
+                                            <ul ng-if="reportedLists.includechecklists === true">
+                                                <!--<div ng-repeat="checklist in item.checklists">-->
+                                                <li ng-repeat-start="(type,checklist)  in card.checklists" ng-if="0"></li>
+                                                <li ng-repeat="checkitem in checklist.checkItems" ng-class="{'cardprint-checked': vm.getCheckState(checkitem.state)}">{{checkitem.name}}</li>
+                                                <li ng-repeat-end ng-if="0"></li>
+                                                <!--</div>-->
+                                            </ul>
+                                            <div ng-if="reportedLists.includecomments === true && (vm.report.comments | filter: {data: {card: {id: card.id}}}).length>0">
+                                                <span style="padding-left:20px;">Comments:</span>
+                                                <ul>
+                                                    <li ng-repeat="comment in vm.report.comments | filter: {data: {card: {id: card.id}}} | orderBy: 'date'">
+                                                        <strong>{{comment.date | date : vm.report.board.hka_dateformat}}:</strong> {{comment.data.text}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div ng-switch-default ng-repeat="(key, value) in vm.report.board.cards | filter: {idList: includedlist.id, closed: false} | groupByLabel: 'labels[0].name'">
+                                    {{key}}
+                                    <ul>
+                                        <li ng-repeat="card in value">
+                                            {{card.name}}
+                                            <div class="sprint-desc" ng-if="reportedLists.includedescription === true">
+                                                <br />
+                                                <p markdown-to-html="card.desc"></p>
+                                            </div>
+                                            <ul ng-if="reportedLists.includechecklists === true">
+                                                <!--<div ng-repeat="checklist in item.checklists">-->
+                                                <li ng-repeat-start="(type,checklist)  in card.checklists" ng-if="0"></li>
+                                                <li ng-repeat="checkitem in checklist.checkItems" ng-class="{'cardprint-checked': vm.getCheckState(checkitem.state)}">{{checkitem.name}}&gt;{{checkitem.name}}</li>
+                                                <li ng-repeat-end ng-if="0"></li>
+                                                <!--</div>-->
+                                            </ul>
+                                            <div ng-if="reportedLists.includecomments === true && (vm.report.comments | filter: {data: {card: {id: card.id}}}).length>0">
+                                                <span style="padding-left:20px;">Comments:</span>
+                                                <ul>
+                                                    <li ng-repeat="comment in vm.report.comments | filter: {data: {card: {id: card.id}}} | orderBy: 'date'">
+                                                        <strong>{{comment.date | date : vm.report.board.hka_dateformat}}:</strong> {{comment.data.text}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

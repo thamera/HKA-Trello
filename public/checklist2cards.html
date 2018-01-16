@@ -1,0 +1,76 @@
+<!doctype html>
+<html ng-app="app" ng-csp>
+<head>
+    <title>HKA Trello Board App</title>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
+</head>
+<body ng-controller="checklistCtrlAs as vm">
+    <header class="">
+        <div class="container">
+            <div class="row spacer">
+                <div class="col-md-12">
+                    heading 
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="container-fluid spacer">
+        <div class="row">
+            <section class="col-xs-12 col-sm-12 fade-back">
+              <div class="view-content">
+                
+              
+                <h2 class="text-center">
+                  {{vm.title}}
+                </h2>
+                <div class="row">
+                  <div class="checklistGrid">
+                    <div ui-grid="vm.checklistGridOptions" ui-grid-grouping ui-grid-selection class=""></div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 hill-buttons hill-buttons-list">
+                        <span>To List</span>
+                        <select class="form-control" ng-model="vm.model.selection.tolist" ng-change="vm.selectToList()">
+                            <option ng-repeat="list in vm.model.board.lists" value="{{list.id}}">{{list.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button ng-disabled="vm.model.numberSelected == 0 || vm.model.selection.tolist == undefined" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">Proceed</button>
+                    </div>
+                </div>
+              </div>
+            </section>
+        </div>
+    </section>
+    <script type="text/javascript" src="scripts/key.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+    <!-- Angular-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+    <!-- Angular Plugins -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+    <!-- Angular App -->
+    <script src="app/checklist.module.js"></script>
+    <script src="app/services/trelloservice.factory.js"></script>
+    <!--<script src="app/services/chromestorage.service.js"></script>
+    <script src="app/services/customsettings.service.js"></script>
+    <script src="app/services/filereader.factory.js"></script>
+    <script src="app/shared/dircontroller.js"></script>-->
+    <script src="app/checklists/checklist.controller.js"></script>
+    <script src="app/checklists/checklist.service.js"></script>
+    <!--<script src="app/trellosettings/trellosettings.controller.js"></script>-->
+</body>
+</html>

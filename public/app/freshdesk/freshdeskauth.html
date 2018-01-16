@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <link rel="stylesheet" href="./freshdeskurl.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  </head>
+  <body>
+    <form id="freshdesk_auth">
+      <div>
+        An API key is required to view active freshdesk data.  If you have an API Key, enter it below and click save.  If valid, your key will be securely saved within your Trello account properties.
+      </div>
+      <input type="text" id="apiKey">
+      <button id="submitBtn" type="submit" class="mod-primary">Save</button>
+      <span id="apiKey_error" style="color:red;">&nbsp;</span><span id="apiKey_success" style="color:green;">&nbsp;</span>
+    </form>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="./freshdesk.service.js"></script>
+    <script src="./freshdeskauth.js"></script>
+  </body>
+</html>
