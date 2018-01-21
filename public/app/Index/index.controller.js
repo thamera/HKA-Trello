@@ -20,6 +20,9 @@
             title: 'Card Printer',
             url: '#/cardprinter'
         }, {
+            title: 'Risk Register',
+            url: '#/riskmgmt'
+        }, {
             title: 'Sprint Reporting',
             url: '#/sprintreport'
         }, {

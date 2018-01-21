@@ -46,7 +46,7 @@ var onGetSuccess = function (data,url) {
   
   if( data.conversations.length > 0) html += '</span><div><button id="FD_CONV_BTN_' + data.id + '" onclick="getConversation(' + data.id + ')" type="button" class="mod-primary">Get Recent Comments</button></div>';
   html += '<div id="FD_CONV_' + data.id + '" class="freshdesk_ticket_conv" style="display:none;">';
-  for (var i = 0; i < data.conversations.length; i++) {
+  for (var i = data.conversations.length - 1; i > 0; i--) {
     html += '<div><div class="freshdesk_ticket_conv_head"><strong>' + (i + 1) + '</strong> ' + moment(data.conversations[i].created_at).format('MM/DD/YYYY') + ' ' + data.conversations[i].from_email + '</div>';
     html += data.conversations[i].body;
     html += '</div>'

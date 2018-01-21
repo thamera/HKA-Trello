@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://trello.com/power-ups/power-up.css">
+    <style>
+      select { height: 30px; }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://trello.com/power-ups/power-up.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <form id="riskForm" class="form-horizontal" >
+        <div class="form-group">
+          <div class="col-xs-6">
+            <label for="riskStatus">Status</label>
+            <select name="riskStatus" class="form-control" id="riskStatus">
+                <option>Open-Active</option>
+                <option>Open-Passive</option>
+                <option>Closed</option>
+            </select>
+          </div>
+          <div class="col-xs-6">
+            <label for="riskCategory">Category</label>
+            <select name="riskCategory" class="form-control" id="riskCategory">
+              <option>Project</option>
+              <option>Schedule</option>
+              <option>Budget</option>
+              <option>Resource</option>
+              <option>Technology</option>
+              <option>Construction</option>
+              <option>Political</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-6">
+            <label for="riskProbability">Probability</label>
+            <select name="riskProbability" class="form-control" id="riskProbability">
+              <option value="3">High</option>
+              <option value="2">Medium</option>
+              <option value="1">Low</option>
+            </select>
+          </div>
+          <div class="col-xs-6">
+            <label for="riskImpact">Impact</label>
+            <select name="riskImpact" class="form-control" id="riskImpact">
+              <option value="3">High</option>
+              <option value="2">Medium</option>
+              <option value="1">Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-6">
+            <label for="riskResponse">Response</label>
+            <select name="riskResponse" class="form-control" id="riskResponse">
+              <option>Accept</option>
+              <option>Avoid</option>
+              <option>Mitigate</option>
+              <option>Transfer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <label for="riskImpactSchedule">Schedule Impact (Days)</label>
+            <input id="riskImpactSchedule" class="form-control" type="number" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <label for="riskImpactCost">Cost Impact ($)</label>
+            <div class="input-group">
+              <span class="input-group-addon" id="riskCost-addon">$</span>
+              <input id="riskImpactCost" class="form-control" type="number" aria-describedby="riskCost-addon" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button id="submitBtn" type="submit" class="btn btn-default mod-primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./riskmgmtform.js"></script>
+  </body>
+</html>

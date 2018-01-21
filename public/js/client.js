@@ -102,21 +102,149 @@ var milestoneCardButtonCallback = function(t){
 var riskCardButtonCallback = function(t){
   return t.popup({
 	  title: "Risk Management",
-	  url: 'riskmgmt.html',
+	  url: './app/riskmgmt/riskmgmtform.html',
     height: 500
 	});
 }
 
+var cardDetailBadgesSetup = function(t, options){
+  var promise = Promise.all([
+      t.get('board', 'shared'),
+      t.list('id','name'),
+      t.get('card', 'shared')
+    ])
+    .spread(function(boardData,currentList,cardData){
+      var badges = [];
+      if (currentList.id == boardData.milestonelist){
+        var statusColor;
+        
+        if (cardData.milestone_status != undefined) {
+          switch (cardData.milestone_status) {
+            case "On Track":
+              statusColor = 'green';
+              break;
+            case "At Risk":
+              statusColor = 'yellow';
+              break;
+            case "Behind Schedule":
+              statusColor = 'red';
+              break;
+            case "Defered/On Hold":
+              statusColor = 'light gray';
+              break;
+            default :
+              statusColor = 'red'
+          }
+          
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Milestone Status",
+            text: cardData.milestone_status,
+            color: statusColor
+          })    
+        }
+        if (cardData.milestone_start != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Planned Start",
+            text: cardData.milestone_start,
+            color: statusColor
+          })    
+        }  
+        if (cardData.milestone_anticipated != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Anticipated Completion",
+            text: cardData.milestone_anticipated,
+            color: statusColor
+          })    
+        }  
+        if (cardData.milestone_actual != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Actual Completion",
+            text: cardData.milestone_actual,
+            color: statusColor
+          })    
+        }  
+      }
+      if (currentList.id == boardData.hka_risklist) {
+        //console.dir(cardData);
+        if (cardData.hka_riskStatus != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Risk Status",
+            text: cardData.hka_riskStatus,
+            color: 'light gray'
+          })    
+        } 
+        if (cardData.hka_riskStatus != undefined) {
+          var Prob = Number(cardData.hka_riskProbability);
+          var Impact = Number(cardData.hka_riskImpact);
+          var score = Prob * Impact;
+          
+          var scoreData = getScoreColor(score);
+          var probData = getScoreLabel(Prob);
+          var impactData = getScoreLabel(Impact);
+          
+          badges.push({
+              icon: impactData.badgeIcon + "?color=fff",
+              title: "Probability",
+              text: probData.text,
+              color: probData.color
+            },{
+              icon: impactData.badgeIcon + "?color=fff",
+              title: "Impact",
+              text: impactData.text,
+              color: impactData.color
+            },{
+              icon: scoreData.badgeIcon + "?color=fff",
+              title: "Risk Score",
+              text: score,
+              color: scoreData.color
+          })   
+        }
+        if (cardData.hka_riskImpactSchedule != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Schedule Impact",
+            text: cardData.hka_riskImpactSchedule + ' days',
+            color: 'light blue'
+          })    
+        } 
+        if (cardData.hka_riskImpactCost != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Cost Impact",
+            text: '$ ' + parseFloat(cardData.hka_riskImpactCost).toFixed(2),
+            color: 'green'
+          })    
+        } 
+        if (cardData.hka_riskResponse != undefined) {
+          badges.push({
+            //icon: BLACK_ROCKET_ICON,
+            title: "Risk Response",
+            text: cardData.hka_riskResponse,
+            color: 'light gray'
+          })    
+        } 
+      }
+      return badges;
+    })
+
+    return promise;
+}
+
 var cardBadgesSetup = function(t, options){
   var promise = Promise.all([
-    t.get('board', 'shared', 'milestonelist'),
+    t.get('board', 'shared'),
     t.list('id','name'),
     t.get('card', 'shared')
   ])
-  .spread(function(savedMilestoneList,currentList,cardData){
+  .spread(function(boardData,currentList,cardData){
     var badges = [];
     //alert(JSON.stringify(cardData));
-    if (currentList.id == savedMilestoneList){
+    if (currentList.id == boardData.milestonelist){
       var statusColor = 'light gray';
       var badgeText = 'Milestone Undefined';
       var badgeIcon = CALENDAR_STAR_ICON;
@@ -155,11 +283,69 @@ var cardBadgesSetup = function(t, options){
         icon: badgeIcon + "?color=fff",
         color: statusColor
       })    
-    }
+    } 
+    if (currentList.id == boardData.hka_risklist) {
+      var statusColor = 'light gray';
+      var badgeText = 'Risk Score: ';
+      var badgeIcon = CALENDAR_STAR_ICON;
+      
+      var score = Number(cardData.hka_riskProbability) * Number(cardData.hka_riskImpact);
+      
+      var scoreData = getScoreColor(score);
+      
+      if (cardData.hka_riskStatus === "Closed") {
+                    badgeText = "Closed Risk";
+                    statusColor = 'light gray';
+      } else if (isNaN(score) || score === ""){
+        badgeText = "Risk Not Scored";
+      } else {
+          badgeText += score;
+      }
+
+      badges.push({
+        title: "Risk Score",
+        text: badgeText,
+        icon: scoreData.badgeIcon + "?color=fff",
+        color: scoreData.color
+      })       
+   }
     return badges;
   })
 
   return promise;
+}
+
+function getScoreColor(score) {
+  switch (true) {
+        case (score < 3):
+          return {color: 'yellow',badgeIcon : CALENDAR_WARNING_ICON};
+          break;
+        case (score > 2 && score < 6):
+          return {color: 'orange',badgeIcon : CALENDAR_WARNING_ICON};
+          break;
+        case (score > 5):
+          return {color: 'red',badgeIcon : CALENDAR_WARNING_ICON};
+          break;
+        default :
+          return {color: 'green',badgeIcon : CALENDAR_WARNING_ICON};
+      }
+}
+
+function getScoreLabel(value){
+   switch (value) {
+        case 1: 
+            return {text:'Low',color: 'yellow',badgeIcon : CALENDAR_WARNING_ICON}
+            break;
+        case 2: 
+            return {text:'Medium',color: 'orange',badgeIcon : CALENDAR_WARNING_ICON}
+            break;
+        case 3: 
+            return {text:'High',color: 'red',badgeIcon : CALENDAR_WARNING_ICON}
+            break;
+        default:
+            return {text:'',color: 'light gray',badgeIcon : CALENDAR_WARNING_ICON}
+            break;
+    }
 }
 
 TrelloPowerUp.initialize({
@@ -275,70 +461,9 @@ TrelloPowerUp.initialize({
     return badges;
   },
   'card-detail-badges': function(t, options) {
-    var promise = Promise.all([
-      t.get('board', 'shared', 'milestonelist'),
-      t.list('id','name'),
-      t.get('card', 'shared')
-    ])
-    .spread(function(savedMilestoneList,currentList,cardData){
-      var badges = [];
-      if (currentList.id == savedMilestoneList){
-        var statusColor;
-        
-        if (cardData.milestone_status != undefined) {
-          switch (cardData.milestone_status) {
-            case "On Track":
-              statusColor = 'green';
-              break;
-            case "At Risk":
-              statusColor = 'yellow';
-              break;
-            case "Behind Schedule":
-              statusColor = 'red';
-              break;
-            case "Defered/On Hold":
-              statusColor = 'light gray';
-              break;
-            default :
-              statusColor = 'red'
-          }
-          
-          badges.push({
-            //icon: BLACK_ROCKET_ICON,
-            title: "Milestone Status",
-            text: cardData.milestone_status,
-            color: statusColor
-          })    
-        }
-        if (cardData.milestone_start != undefined) {
-          badges.push({
-            //icon: BLACK_ROCKET_ICON,
-            title: "Planned Start",
-            text: cardData.milestone_start,
-            color: statusColor
-          })    
-        }  
-        if (cardData.milestone_anticipated != undefined) {
-          badges.push({
-            //icon: BLACK_ROCKET_ICON,
-            title: "Anticipated Completion",
-            text: cardData.milestone_anticipated,
-            color: statusColor
-          })    
-        }  
-        if (cardData.milestone_actual != undefined) {
-          badges.push({
-            //icon: BLACK_ROCKET_ICON,
-            title: "Actual Completion",
-            text: cardData.milestone_actual,
-            color: statusColor
-          })    
-        }  
-      }
-      return badges;
-    })
+    var detailBadges = cardDetailBadgesSetup(t,options);
 
-    return promise;
+    return detailBadges;
   },
   'show-settings': function(t, options){
     return t.popup({

@@ -1,8 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
     <link rel="stylesheet" href="./freshdeskurl.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
   </head>
   <body>
@@ -23,6 +26,13 @@
             </select>
           </div>
         </div>
+        <div class="form-group" id="ticketProject-group">
+          <div class="col-xs-12">
+            <label for="ticketProject">Project (required)</label>
+            <select id="ticketProject" class="form-control">
+            </select>
+          </div>
+        </div>
         <div class="form-group">
           <div class="col-xs-12">
             <label for="ticketCC">Email Addresses to CC (comma separated)</label>
@@ -32,13 +42,13 @@
         <div class="form-group">
           <div class="col-xs-9">
             <label for="ticketSubject">Subject</label>
-            <input type="text" class="form-control" id="ticketSubject" readonly>
+            <input type="text" class="form-control" id="ticketSubject">
           </div>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
             <label for="ticketDescription">Description</label>
-            <textarea id="ticketDescription" class="form-control" rows="6" readonly></textarea>
+            <div id="ticketDescription" class="form-control"></div>
           </div>
         </div>
         <div class="form-group">
@@ -53,14 +63,16 @@
         </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button id="submitBtn" type="submit" class="btn btn-default mod-primary">Send</button>
+            <button id="submitBtn" type="submit" class="btn btn-default mod-primary"><i class="fa fa-spinner fa-spin hide"></i><span>Send</span></button>
           </div>
         </div>
       </form>
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
     <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
-    <script type="text/javascript" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.min.js"></script>
     <script src="./freshdesk.service.js"></script>
     <script src="./freshdeskcreate.js"></script>
   </body>

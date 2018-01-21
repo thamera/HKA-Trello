@@ -1,0 +1,11 @@
+input[type="url"] {
+    background: #EDEFF0;
+    border-radius: 3px;
+    border: 1px solid #CDD2D4;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 1em;
+    padding: .5em;
+    width: 100%;
+    max-width: 500px;
+}
