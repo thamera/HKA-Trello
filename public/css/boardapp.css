@@ -156,7 +156,12 @@ header .navbar-toggle-always:hover {
 }
 
 .hka-features {
-  display:flex;flex-wrap:wrap;
+  display:flex;
+  flex-wrap:wrap;
+  align-content: space-between;
+}
+.hka-features-item {
+    margin-bottom: 20px;
 }
 .hka-features .thumbnail {
   height: 100%;

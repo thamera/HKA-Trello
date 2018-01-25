@@ -15,6 +15,7 @@
         var vm = this;
         vm.title = 'Sprint Reporting';
         vm.exportWord = exportWord;
+      vm.exportWord2 = exportWord2;
         vm.postToTrello = postToTrello;
         vm.report = {};
         vm.customSettings = customSettings;
@@ -74,6 +75,12 @@
             var sprint = vm.report.board.hka_sprintnumber || "0";
             $("#reportcontent").wordExport({ filename: "Sprint-Report-" + sprint + "-" + today.getFullYear() + today.getMonth() + today.getDate(), title: "PMWeb Sprint Report", stylesheet: "css/reporting.css"});
         }
+      
+      function exportWord2() {
+        console.log("sprintreport.controller>exportWord");
+        
+        sprintreportService.getReport(vm.report);
+      }
 
         function postToTrello() {
             console.log("sprintreport.controller>postToTrello");
