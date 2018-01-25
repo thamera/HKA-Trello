@@ -12,7 +12,7 @@ t.render(function () {
     t.card('attachments')
         .get('attachments')
         .filter(function (attachment) {
-            return attachment.url.indexOf('freshdesk.com/support/tickets/') != -1;
+            return attachment.url.indexOf('.freshdesk.com/') != -1 && attachment.url.indexOf('/tickets/') != -1 ;
         })
         .then(function (freshdeskAttachment) {
             var urls = freshdeskAttachment.map(function (a) { return a.url; });
@@ -56,15 +56,40 @@ var onGetSuccess = function (data,url) {
   if (data.attachments.length > 0) {
     html += '<div>Attachments<ul class="freshdesk_ticket_attachments">';
     for (var i = 0; i < data.attachments.length; i++) {
-      html += '<li><a href="' + data.attachments[i].attachment_url + '">' + data.attachments[i].name + '</a></li>';
+      html += '<li><a href="' + data.attachments[i].attachment_url + '" target="_blank">' + data.attachments[i].name + '</a></li>';
     }
     html += '</ul></div>';
   }
   
   html += '</div>';
   $("#content").append(html);
+  
+  $(document).ready(function() {
+    $('#ticketDescription_' + data.id).summernote({toolbar: [
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['strikethrough', 'superscript', 'subscript']],
+      ['fontsize', ['fontsize','color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['styling', ['style','height']],
+      ['insert',['link','table','hr']],
+      ['misc',['codeview','undo','redo','help']]
+    ]});
+    
+    
+  });
+  
   t.sizeTo('#content');
 }
+
+$('#content').on('click','.addComment', function(){
+  t.popup({
+     //icon: ICON_FD,
+     title: 'Freshdesk Authentication Required',
+     url: './freshdeskupdate.html',
+     height: 500,
+     //args: { redirectUrl: 'freshdeskLink', freshdeskUrl: hka_freshdeskurl }
+  });
+});
 
 var onGetFailure = function (data, ticketId) {
     var html = "<div>Error obtaining freshdesk data from freshdesk API for ticket id: " + ticketId;

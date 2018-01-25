@@ -138,11 +138,19 @@
             //console.dir(vm.settings.addListSelection);
             //console.dir(vm.report.board.lists);
             var temp = vm.report.board.lists[vm.settings.addListSelection];
+            
+            var reportedListsLength = 0;
+            if (vm.report.board.hka_reportedLists !== undefined) {
+              reportedListsLength = vm.report.board.hka_reportedLists.length;
+            } else {
+              vm.report.board.hka_reportedLists = [];
+            }
+          
             var newItem = {
                 name: temp.name,
                 listName: temp.name,
                 listId: temp.id,
-                pos: vm.report.board.hka_reportedLists.length + 1
+                pos: reportedListsLength + 1
             }
             vm.report.board.hka_reportedLists.push(newItem);
             t.set('board','shared','reportedLists',vm.report.board.hka_reportedLists);         

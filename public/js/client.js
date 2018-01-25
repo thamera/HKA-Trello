@@ -7,6 +7,9 @@ var ICON_FD = 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Ffd.
 var BLACK_ROCKET_ICON = 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421';
 var CALENDAR_WARNING_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-warning.svg?1504481230707';
 var CALENDAR_STAR_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-star.svg?1504481230561';
+var MILESTONE_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_11.png?1516838702748";
+var RISK_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494";
+var CHECK2CARD_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F005.png?1516838750019";
 
 var TRELLOKEY = '2aa92cafd38af541fd512aa516050986'
 
@@ -29,7 +32,7 @@ var boardButtonCallback = function(t){
               accentColor: '#3A96A3', // Optional color for the modal header 
               height: 500, // Initial height for iframe; not used if fullscreen is true
               fullscreen: true, // Whether the modal should stretch to take up the whole screen
-              callback: () => console.log('Goodbye.'), // optional function called if user closes modal (via `X` or escape)
+              callback: function() { console.log('Goodbye.'); }, // optional function called if user closes modal (via `X` or escape)
               title: 'HKA Board App', // Optional title for modal header
               // You can add up to 3 action buttons on the modal header - max 1 on the right side.
             })
@@ -56,7 +59,7 @@ var checklist2CardButtonCallback = function(t){
         accentColor: '#3A96A3',
         height: 500,
         fullscreen: true,
-        callback: () => console.log('Goodbye.'),
+        callback: function() { console.log('Goodbye.'); },
         url: 'checklist2cards.html'
       });
     }
@@ -239,9 +242,10 @@ var cardBadgesSetup = function(t, options){
   var promise = Promise.all([
     t.get('board', 'shared'),
     t.list('id','name'),
-    t.get('card', 'shared')
+    t.get('card', 'shared'),
+    t.card('attachments')
   ])
-  .spread(function(boardData,currentList,cardData){
+  .spread(function(boardData,currentList,cardData,card){
     var badges = [];
     //alert(JSON.stringify(cardData));
     if (currentList.id == boardData.milestonelist){
@@ -309,6 +313,18 @@ var cardBadgesSetup = function(t, options){
         color: scoreData.color
       })       
    }
+    
+    // If card has freshdesk attachments
+    if (card.attachments.length > 1){
+      var attachments = card.attachments.filter(attch => (attch.url.indexOf('freshdesk.com') != -1)).length;
+      if (attachments > 0 ) {
+        badges.push({
+          title: "Freshdesk Tickets",
+          text: attachments,
+          icon: ICON_FD
+        })
+      }
+    }
     return badges;
   })
 
@@ -360,7 +376,7 @@ TrelloPowerUp.initialize({
         return attachment.name.indexOf('CreatedFromChecklist') === 0;
       });
       var freshdeskClaim = options.entries.filter(function (attachment) {
-        return attachment.url.indexOf('freshdesk.com/support/tickets/') != -1;
+        return attachment.url.indexOf('.freshdesk.com/') != -1 && attachment.url.indexOf('/tickets/') != -1;
       });
 
       var sections = [];
@@ -370,7 +386,7 @@ TrelloPowerUp.initialize({
         sections.push({
           id: 'ChecklistLink',
           claimed: claimed,
-          icon: ICON_HKA,
+          icon: CHECK2CARD_ICON,
           title: 'Created From Checklist',
           content: {
             type: 'iframe',
@@ -429,7 +445,7 @@ TrelloPowerUp.initialize({
     ])
     .spread(function(boardProps,currentList){
       var buttons = [{
-        icon: ICON_HKA,
+        icon: CHECK2CARD_ICON,
         text: "Checklist to Cards",
         callback: checklist2CardButtonCallback
       },
@@ -440,13 +456,13 @@ TrelloPowerUp.initialize({
        }];
       if (currentList.id == boardProps.milestonelist){
         buttons.push({
-          icon: ICON_HKA,
+          icon: MILESTONE_ICON,
           text: "Milestone Info",
           callback: milestoneCardButtonCallback
         })         
       } else if (currentList.id == boardProps.hka_risklist){
         buttons.push({
-          icon: ICON_HKA,
+          icon: RISK_ICON,
           text: "Risk Management",
           callback: riskCardButtonCallback
         }) 
