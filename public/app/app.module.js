@@ -34,6 +34,7 @@
             .when('/', { templateUrl: 'app/home/home.html' })
             .when('/trellosettings', { templateUrl: 'app/trellosettings/trellosettings.html' })
             .when('/checklisttocard/:cardId', { templateUrl: 'app/checklists/checklists.html' })
+            .when('/riskmgmt', { templateUrl: 'app/riskmgmt/riskmgmt.html' })
             .when('/sprintreport', { templateUrl: 'app/sprintreport/sprintreport.html' })
             .when('/releasereport', { templateUrl: 'app/releasereport/releasereport.html' })
             .when('/cardprinter', { templateUrl: 'app/cardprinter/cardprinter.html' })

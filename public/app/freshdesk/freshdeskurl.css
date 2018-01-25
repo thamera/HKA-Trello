@@ -3,6 +3,10 @@
   margin-bottom: 0px;
 }
 
+#freshdesk_create .note-editor {
+  max-width: 500px;
+}
+
 #apiKey_success, #apiKey_success {
  font-size: 12px;
   line-height: 12px;

@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
     <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
 </head>
 <body ng-controller="indexCtrlAs as vm">
   <nav class="navbar navbar-default">
@@ -24,7 +25,12 @@
               <li class="nav-item" ng-repeat="tab in vm.tabs"
                   ng-class="{active:vm.isActiveTab(tab.title)}"
                   ng-click="vm.tabClick(tab)">
-                  <a class="nav-link" ng-href="{{tab.url}}">{{tab.title}}</a>
+                  <a class="nav-link" ng-href="{{tab.url}}"><img height="30" ng-src="{{tab.icon}}"/> {{tab.title}}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://trello.com/b/GYouUvll/hka-trello-app" target="_blank" title="Submit feedback to help us improve this app and view current progress on enhancements.">
+                  <img height="30" src="https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_10.png?1516836638732"/> Submit Feedback
+                </a>
               </li>
             </ul>
           </div>
@@ -80,13 +86,12 @@
     <script src="app/app.module.js"></script>
     <script src="lib/angular/filters.js"></script>
     <script src="app/services/trelloservice.factory.js"></script>
-    <!--<script src="app/services/chromestorage.service.js"></script>
-    <script src="app/services/customsettings.service.js"></script>
-    <script src="app/services/filereader.factory.js"></script>
+    <!--<script src="app/services/filereader.factory.js"></script>
     <script src="app/shared/dircontroller.js"></script>-->
     <script src="app/Index/index.controller.js"></script>
     <script src="app/home/home.controller.js"></script>
-    <!--<script src="app/trellosettings/trellosettings.controller.js"></script>-->
+    <script src="app/riskmgmt/riskmgmt.controller.js"></script>
+    <script src="app/riskmgmt/riskmgmt.service.js"></script>  
     <script src="app/sprintreport/sprintreport.controller.js"></script>
     <script src="app/sprintreport/sprintreport.service.js"></script>
     <!--<script src="app/releasereport/releasereport.controller.js"></script>

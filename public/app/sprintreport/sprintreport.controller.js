@@ -15,6 +15,7 @@
         var vm = this;
         vm.title = 'Sprint Reporting';
         vm.exportWord = exportWord;
+      vm.exportWord2 = exportWord2;
         vm.postToTrello = postToTrello;
         vm.report = {};
         vm.customSettings = customSettings;
@@ -74,6 +75,12 @@
             var sprint = vm.report.board.hka_sprintnumber || "0";
             $("#reportcontent").wordExport({ filename: "Sprint-Report-" + sprint + "-" + today.getFullYear() + today.getMonth() + today.getDate(), title: "PMWeb Sprint Report", stylesheet: "css/reporting.css"});
         }
+      
+      function exportWord2() {
+        console.log("sprintreport.controller>exportWord");
+        
+        sprintreportService.getReport(vm.report);
+      }
 
         function postToTrello() {
             console.log("sprintreport.controller>postToTrello");
@@ -138,11 +145,19 @@
             //console.dir(vm.settings.addListSelection);
             //console.dir(vm.report.board.lists);
             var temp = vm.report.board.lists[vm.settings.addListSelection];
+            
+            var reportedListsLength = 0;
+            if (vm.report.board.hka_reportedLists !== undefined) {
+              reportedListsLength = vm.report.board.hka_reportedLists.length;
+            } else {
+              vm.report.board.hka_reportedLists = [];
+            }
+          
             var newItem = {
                 name: temp.name,
                 listName: temp.name,
                 listId: temp.id,
-                pos: vm.report.board.hka_reportedLists.length + 1
+                pos: reportedListsLength + 1
             }
             vm.report.board.hka_reportedLists.push(newItem);
             t.set('board','shared','reportedLists',vm.report.board.hka_reportedLists);         

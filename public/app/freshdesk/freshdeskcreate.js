@@ -1,4 +1,4 @@
-/* global TrelloPowerUp, Freshdesk, moment, Trello */
+/* global TrelloPowerUp, Freshdesk, moment, Trello, showdown */
 
 var t = window.TrelloPowerUp.iframe();
 
@@ -14,17 +14,51 @@ t.render(function () {
   var context = t.getContext();
   var filesUploader = $("#ticketFileContainer").fileUploader(filesToUpload, "ticketFiles");
   
-  Trello.get('cards/' + context.card,{fields:'all',members:'true',member_fields:'all',attachments:'true',attachment_fields:'all'},function(card) {
+  Trello.get('cards/' + context.card,{fields:'all',members:'true',member_fields:'all',attachments:'true',attachment_fields:'all',board:true,board_fields:'all'},function(card) {
     card = card;
-    
+    //console.dir(card);
     Trello.get('members/'+ context.member,{},function(member) {
-      requester = member;
-
-      document.getElementById('ticketReqester').value = requester.email;
-      document.getElementById('ticketSubject').value = card.name;
-      document.getElementById('ticketDescription').value = card.desc;
+      t.get('board','shared')
+      .then(function(boardData){
+        //console.dir(boardData);
       
-      return t.sizeTo('#freshdesk_create');
+        requester = member;
+
+        var converter = new showdown.Converter();
+        var body = converter.makeHtml('Trello Card: ' + card.shortUrl + ' \n\n' + card.desc);
+        var subject = card.board.name + ' | ' + card.name;
+
+        document.getElementById('ticketReqester').value = requester.email;
+        document.getElementById('ticketSubject').value = subject;
+        
+        var projectElem = document.getElementById('ticketProject');
+        if(boardData.hka_freshdesk_billingcode == 1) {
+          var projNums = boardData.hka_projectnumbers.split(',');
+          for (var i=0; i < projNums.length; i++){
+            var option = document.createElement("option");
+            option.text = projNums[i];
+            option.value = projNums[i];
+            projectElem.add(option);
+          }
+        } else {
+          document.getElementById('ticketProject-group').className += " hide";
+          projectElem.setAttribute('hka_ignore', true);
+        }
+        $(document).ready(function() {
+          $('#ticketDescription').summernote({toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize','color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['styling', ['style','height']],
+            ['insert',['link','table','hr']],
+            ['misc',['codeview','undo','redo','help']]
+          ]});
+          $('#ticketDescription').summernote('code', body);
+        });
+
+        return t.sizeTo('#freshdesk_create');
+      });
     });
   });
   //});
@@ -32,6 +66,10 @@ t.render(function () {
 
 window.freshdesk_create.addEventListener('submit', function(event){
   event.preventDefault();
+  
+  $('#submitBtn i').removeClass('hide');
+  $('#submitBtn span').html('&nbsp;Loading...');
+  $('#submitBtn').attr("disabled",true);
   
   Freshdesk.setKey(t.arg('freshdeskKey'));
   
@@ -54,16 +92,27 @@ window.freshdesk_create.addEventListener('submit', function(event){
     }
   }
   if ( requester == "" || ! regex.test(requester) ){ 
-      alert("Invalid Request Email Addres.");
+      alert("Invalid Request Email Address.");
       return; 
+  }
+
+  var project = document.getElementById('ticketProject');
+  if (!project.getAttribute('hka_ignore')){
+    if ( project == undefined || project.value == ''){
+      alert("Missing Project Selection. You must select a project to submit a Freshdesk ticket.  Projects are added to the HKA Trello App settings page for this board.");
+        return; 
+    }
   }
   
   var data = new FormData();
-  data.append('description', document.getElementById('ticketDescription').value);
+  data.append('description', $('#ticketDescription').summernote('code'));// document.getElementById('ticketDescription').value);
   data.append('subject',document.getElementById('ticketSubject').value);
   data.append('email',requester);
   data.append('priority',Number(document.getElementById('ticketPriority').value));
   data.append('status',2);
+  if (!project.getAttribute('hka_ignore')){
+    data.append('custom_fields[billing_code]',project.value);
+  }
   if( cc.length > 0) data.append('cc_emails[]',cc);
   
   for(var i = 0, len = filesToUpload.length; i < len; i++) {
@@ -79,8 +128,14 @@ window.freshdesk_create.addEventListener('submit', function(event){
   
   Freshdesk.post('tickets',data, false, function (data) {
     onGetSuccess(data);
-  }, function (error) {console.dir(error);});
-  
+    $('#submitBtn i').addClass('hide');
+    $('#submitBtn span').html('Submit');
+    $('#submitBtn').removeAttr("disabled");
+  }, function (error) {
+    console.dir(error);
+    alert("Unknown error generating freshdesk ticket.");
+  });
+
 });
 
 var getFile = function ( thisFile) {

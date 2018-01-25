@@ -1,4 +1,4 @@
-/* global angular, context, t */
+/* global angular, context, t, saveAs */
 
 (function () {
     'use strict';
@@ -7,9 +7,9 @@
         .module('app')
         .service('sprintreportService', sprintreportService);
 
-    sprintreportService.$inject = ['trelloService', '$q'];
+    sprintreportService.$inject = ['trelloService', '$q','$http'];
 
-    function sprintreportService(trelloService, $q) {
+    function sprintreportService(trelloService, $q, $http) {
         var service = {
             settings: {
                 //lists: {},
@@ -18,7 +18,8 @@
             model: {},
             init: init, 
             formatMilestones: formatMilestones, 
-            getReportLogo: getReportLogo
+            getReportLogo: getReportLogo,
+          getReport: getReport
         }
 
         return service;
@@ -81,6 +82,20 @@
             return deferred.promise;
         }
       
+      function getReport(report) {
+        //var today = new Date();
+        //var sprint = vm.report.board.hka_sprintnumber || "0";
+        console.dir(report);
+        $http({
+          method: "POST",
+          url: 'https://hka-trello.glitch.me/api/sprintReport',
+          data: report,
+          responseType: 'arraybuffer'
+        })
+        .then(function(rs){
+          saveAs(new Blob([rs.data], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), '-SprintReport.docx');
+        });
+      }
 // End Public Methods
 
 //Private Methods

@@ -1,45 +1,80 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://trello.com/power-ups/power-up.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/settings.css" />
     <script src="https://trello.com/power-ups/power-up.min.js"></script>
   </head>
 </html>
 <body>
-  <div id="content">
-    <p>
-       Select the standard date format for reporting
-    </p>
-    <select id="hka_dateformat">
-        <option value="short">US Short (9/3/10 12:05 PM)</option>
-        <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
-        <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
-        <option value="longDate">US Long Date (September 3, 2010)</option>
-        <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
-        <option value="shortDate">US Short Date (9/3/10)</option>
-        <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
-        <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
-        <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
-        <option value="d MMM y">Std Long Date (3 September 2010)</option>
-        <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
-        <option value="d/M/yy">Std Short Date (3/9/10)</option>
-    </select>
-    <p>
-      Milestone Schedule List
-    </p>
-    <select id="hka_milestonelist">
-      
-    </select>
-    <p>
-      Risk Management List
-    </p>
-    <select id="hka_risklist">
-      
-    </select>
-    <p>
-      Freshdesk API URL <br />(e.g. https://hka-tech.freshdesk.com/api)
-    </p>
-    <input type="url" id="hka_freshdeskurl" />
-    <button id="save" class="mod-primary">Save</button>
+  <div id="content" class="container-fluid">
+    <form class="form-horizontal" id="hka-settings">
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label for="hka_dateformat">
+             Date Format
+          </label>
+          <select id="hka_dateformat">
+              <option value="short">US Short (9/3/10 12:05 PM)</option>
+              <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
+              <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
+              <option value="longDate">US Long Date (September 3, 2010)</option>
+              <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
+              <option value="shortDate">US Short Date (9/3/10)</option>
+              <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
+              <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
+              <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
+              <option value="d MMM y">Std Long Date (3 September 2010)</option>
+              <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
+              <option value="d/M/yy">Std Short Date (3/9/10)</option>
+          </select>
+          <p class="help-block">Select the standard date format for reporting</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label for="hka_milestonelist">Milestone Schedule List</label>
+          <select id="hka_milestonelist"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label for="hka_risklist">Risk Management List</label>
+          <select id="hka_risklist"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label for="hka_freshdeskurl">Freshdesk API URL</label>
+          <input type="url" id="hka_freshdeskurl" />
+          <p class="help-block">(e.g. https://hka-tech.freshdesk.com/api)</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label>Freshdesk: Custom Fields</label>
+          <p class="help-block">Select fields to be included in Freshdesk Tickets</p>
+          <label>
+            <input type="checkbox" value="" id="hka_freshdesk_billingcode" checked />
+            Billing Code (identified by Project Numbers)
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <label for="hka_projectnumbers">Project Number(s)</label>
+          <input type="text" id="hka_projectnumbers" />
+          <p class="help-block">(if multiple, separate with commas)</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button id="save" class="mod-primary">Save</button>
+        </div>
+      </div>
+    </form>
   </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="./js/settings.js"></script>
 </body>

@@ -32,10 +32,15 @@
       
       status: function(id) {
         var statuses = {
-          1: 'Open',
-          2: 'Pending',
-          3: 'Resolved',
-          3: 'Closed',
+          2: 'Open',
+          3: 'Pending',
+          4: 'Resolved',
+          5: 'Closed',
+          6: 'Testing',
+          10: 'On Hold',
+          11: 'Waiting For Response',
+          12: 'Responded',
+          12: 'Awaiting Client Review'
         }
         return statuses[id];
       },
