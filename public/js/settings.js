@@ -8,6 +8,7 @@ var milestoneSelector = document.getElementById('hka_milestonelist');
 var riskSelector = document.getElementById('hka_risklist');
 var hka_freshdeskurl = document.getElementById('hka_freshdeskurl');
 var hka_projectnumbers = document.getElementById('hka_projectnumbers');
+var hka_securitygroups = document.getElementById('hka_securitygroups');
 var hka_freshdesk_billingcode = document.getElementById('hka_freshdesk_billingcode');
 
 t.render(function(){
@@ -42,6 +43,9 @@ t.render(function(){
     if(boardProps.hka_projectnumbers){
        hka_projectnumbers.value = boardProps.hka_projectnumbers;
     }
+    if(boardProps.hka_securitygroups){
+       hka_securitygroups.value = boardProps.hka_securitygroups; 
+    }
     if(boardProps.hka_freshdesk_billingcode == undefined) {
       hka_freshdesk_billingcode.checked = true;
     } else if(boardProps.hka_freshdesk_billingcode){
@@ -64,6 +68,7 @@ document.getElementById('save').addEventListener('click',function(){
     'milestonelist':milestoneSelector.value,
     'hka_freshdeskurl':hka_freshdeskurl.value,
     'hka_projectnumbers':hka_projectnumbers.value,
+    'hka_securitygroups':hka_securitygroups.value,
     'hka_freshdesk_billingcode':billingcodechecked,
     'hka_risklist':riskSelector.value
   })

@@ -10,6 +10,7 @@ var CALENDAR_STAR_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3
 var MILESTONE_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_11.png?1516838702748";
 var RISK_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494";
 var CHECK2CARD_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F005.png?1516838750019";
+var SECURITY_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_25.png?1520310634792";
 
 var TRELLOKEY = '2aa92cafd38af541fd512aa516050986'
 
@@ -108,6 +109,32 @@ var riskCardButtonCallback = function(t){
 	  url: './app/riskmgmt/riskmgmtform.html',
     height: 500
 	});
+}
+
+var securityRequirementsButtonCallback = function(t){
+  return t.get('member','private','token')
+  .then(function(token){
+    if (!token) {
+     return t.modal({
+       title: 'Authorize HKA Trello App',
+       args: { apiKey: TRELLOKEY }, // Pass in API key to the iframe
+       url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
+       height: 500,
+       fullscreen:true,
+       accentColor: '#3A96A3'
+     });
+    } else {
+      return t.modal({
+        title: "Security Requirements",
+        args: { apiKey: TRELLOKEY, apiToken: token },
+        accentColor: '#3A96A3',
+        height: 500,
+        fullscreen: true,
+        callback: function() { console.log('Goodbye.'); },
+        url: 'securityreq.html',
+      });
+    }
+  })
 }
 
 var cardDetailBadgesSetup = function(t, options){
@@ -325,8 +352,29 @@ var cardBadgesSetup = function(t, options){
         })
       }
     }
+    
+    // If card has security requirements
+    var securityReqsCount = 0;
+    var completedSecurityReqs = 0;
+    var hasSecurityReqs = false;
+    for (var property in cardData) {
+      if (cardData[property].isSecurityReq) {
+        hasSecurityReqs = true;
+        securityReqsCount++;
+        if (cardData[property].complete == false) { completedSecurityReqs++; }
+      }
+    }
+    if (hasSecurityReqs){
+      badges.push({
+        title: "Security Requirements",
+        text: completedSecurityReqs + ' of ' + securityReqsCount,
+        icon: SECURITY_ICON
+      })
+    }
+    
     return badges;
   })
+  
 
   return promise;
 }
@@ -453,6 +501,11 @@ TrelloPowerUp.initialize({
          icon: ICON_FD,
          text: "Send To Freshdesk",
          callback: sendToFreshdeskButtonCallback
+       },
+       {
+         icon: SECURITY_ICON,
+         text: "Security Requirements",
+         callback: securityRequirementsButtonCallback
        }];
       if (currentList.id == boardProps.milestonelist){
         buttons.push({

@@ -165,6 +165,7 @@ Trello.setToken(token);
                     data.board["hka_sprintstart"] = new Date(value.hka_sprintstart);
                     data.board["hka_sprintend"] = new Date(value.hka_sprintend);
                     data.board["hka_projectnumbers"] = value.hka_projectnumbers;
+                    data.board["hka_securitygroups"] = value.hka_securitygroups;
                   }
                 }
 
