@@ -29,7 +29,7 @@
             
             t.get('card','shared')
               .then(function (data) {
-                console.log(JSON.stringify(data, null, 2));
+                //console.log(JSON.stringify(data, null, 2));
                 service.model["cardSettings"] = data  
               
                 console.log("resolve init");

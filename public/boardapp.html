@@ -1,14 +1,15 @@
 <!doctype html>
 <html ng-app="app" ng-csp>
 <head>
-    <title>HKA Trello Board App</title>
-    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
-    <script src="https://p.trellocdn.com/power-up.min.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
-    <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
+  <title>HKA Trello Board App</title>
+  <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+  <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
 <body ng-controller="indexCtrlAs as vm">
   <nav class="navbar navbar-default">
@@ -74,7 +75,7 @@
     <!-- Angular Plugins -->
     <!--<script type="text/javascript" src="lib/angular/angular-trello.min.js"></script>-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/1.4.0/angular-drag-and-drop-lists.min.js"></script>
@@ -98,8 +99,10 @@
     <script src="app/releasereport/releasereport.service.js"></script>-->
     <script src="app/cardprinter/cardprinter.controller.js"></script>
     <script src="app/cardprinter/cardprinter.service.js"></script>
-    <script src="app/mysettings/mysettings.controller.js"></script>
-    <script src="app/mysettings/mysettings.service.js"></script>
+  <script src="app/securityreq/securitylog.controller.js"></script>
+  <script src="app/securityreq/securitylog.service.js"></script>
+  <script src="app/mysettings/mysettings.controller.js"></script>
+  <script src="app/mysettings/mysettings.service.js"></script>
 </body>
 </html>
 

@@ -4,6 +4,9 @@ var express = require('express');
 var router = express.Router();
 var riskLog = require('../controllers/riskLog');
 var sprintReport = require('../controllers/sprintReport');
+var securityLog = require('../controllers/securityLog');
+var cardPrinter = require('../controllers/cardPrinter');
+var meetingPrinter = require('../controllers/meetingPrinter');
 var http = require('http');
 
 // Require controller modules
@@ -24,5 +27,8 @@ router.use (function(req, res, next) {
 
 router.post('/riskLog', riskLog.postLog);
 router.post('/sprintReport', sprintReport.postReport);
+router.post('/securityLog', securityLog.postLog);
+router.post('/meetingPrinter', meetingPrinter.postReport);
+router.post('/cardPrinter', cardPrinter.postReport);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-/* global angular, context */
+/* global angular, context, saveAs */
 
 (function () {
     'use strict';
@@ -7,15 +7,16 @@
         .module('app')
         .service('cardprinterService', cardprinterService);
 
-    cardprinterService.$inject = ['trelloService', '$q'];
+    cardprinterService.$inject = ['trelloService', '$q','$http'];
 
-    function cardprinterService(trelloService, $q) {
+    function cardprinterService(trelloService, $q,$http) {
         var service = {
             settings: {
             },
             init: init,
             getReportLogo: getReportLogo,
-            convertToBase64: convertToBase64
+            convertToBase64: convertToBase64,
+          getReport:getReport
         }
 
         return service;
@@ -77,6 +78,21 @@
 
             return deferred.promise;
         }
+      
+      function getReport(report) {
+        //var today = new Date();
+        //var sprint = vm.report.board.hka_sprintnumber || "0";
+        console.dir(report);
+        $http({
+          method: "POST",
+          url: 'https://hka-trello.glitch.me/api/cardPrinter',
+          data: report,
+          responseType: 'arraybuffer'
+        })
+        .then(function(rs){
+          saveAs(new Blob([rs.data], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), '-CardPrint.docx');
+        });
+      }
 
 // Private Functions
 

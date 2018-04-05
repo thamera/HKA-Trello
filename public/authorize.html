@@ -18,6 +18,7 @@
       var t = TrelloPowerUp.iframe();
 
       var apiKey = t.arg('apiKey'); // Passed in as an argument to our iframe
+      console.log(t.arg('creds'));
 
       var trelloAuthUrl = `https://trello.com/1/authorize?expiration=never&name=HKA%20Trello%20App&scope=read,write,account&key=${apiKey}&callback_method=fragment&return_url=${window.location.origin}%2fauth-success.html`;
       

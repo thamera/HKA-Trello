@@ -39,7 +39,7 @@ Trello.setToken(token);
 
             var onGetSuccess = function (data) {
                 if (onDataSuccess) {
-                    console.log('successful trello get...');
+                    //console.log('successful trello get...');
                     service.ready = true;
                     onDataSuccess(data);
                 } else {
@@ -129,7 +129,7 @@ Trello.setToken(token);
             var onDeleteSuccess = function (data) {
 
                 if (onDataSuccess) {
-                    console.log('successful trello delete...');
+                    //console.log('successful trello delete...');
                     service.ready = true;
                     onDataSuccess(data);
                 } else {

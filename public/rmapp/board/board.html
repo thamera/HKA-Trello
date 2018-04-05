@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1>
+    Board Resource Planning<br /><small>Identify your project target start and finish dates and create resource rows in the table below with resource allocations as typical number of hours for a work week within each month.</small>
+  </h1>
+</div>
+<div ng-controller="boardCtrlAs as vm">
+  <form class="form-inline" id="hka-settings">
+    <div class="form-group">
+      <label for="hka_targetstart">
+         Target Start Date
+      </label>
+      <input date-input type="date" id="hka_targetstart" ng-model="vm.model.hka_targetstart" ng-change="vm.updateSetting('hka_targetstart')" value="{{vm.model.hka_targetstart | date: 'yyyy-MM-dd'}}" />
+    </div>
+    <div class="form-group">
+      <label for="hka_targetfinish">
+         Target Finish Date
+      </label>
+      <input date-input type="date" id="hka_targetfinish" ng-model="vm.model.hka_targetfinish" ng-change="vm.updateSetting('hka_targetfinish')" value="{{vm.model.hka_targetfinish | date: 'yyyy-MM-dd'}}" />
+    </div>
+    <div>
+      *Note: Reducing the target finish date will not clear data.  Manually clear the resource allocations prior to reducing the target finish date.
+    </div>
+  </form>
+  <div class="resourceGrid">
+    <div ui-grid="vm.GridOptions" ui-grid-edit ui-grid-selection ui-grid-pinning class=""></div>
+  </div>
+  <div class="row spacer">
+      <div class="col-xs-12">
+        <button type="button" ng-click="vm.grid.addRow()" class="btn btn-primary">Add A Resource</button>
+      </div>
+  </div>
+</div>

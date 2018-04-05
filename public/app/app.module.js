@@ -5,23 +5,23 @@
 
     angular
         .module('app', [
-            // Angular modules
-            //'ngAnimate',
-            'ngRoute',
-            'ngSanitize',
+          // Angular modules
+          //'ngAnimate',
+          'ngRoute',
+          'ngSanitize',
 
-            // Custom modules
+          // Custom modules
 
-            // 3rd Party Modules
-            //'ui.bootstrap',
-            'ui.grid',
-            'ui.grid.grouping',
-            'ui.grid.selection',
-            'oc.lazyLoad',
-            'dndLists',
-            'ng-showdown',
-            'asideModule'
-            //'btford.markdown'
+          // 3rd Party Modules
+          //'ui.bootstrap',
+          'ui.grid',
+          'ui.grid.grouping',
+          'ui.grid.selection',
+          'oc.lazyLoad',
+          'dndLists',
+          'ng-showdown',
+          'asideModule'
+          //'btford.markdown'
         ])
         .config(routeConfig)
         .config(compileProvider);
@@ -38,6 +38,7 @@
             .when('/sprintreport', { templateUrl: 'app/sprintreport/sprintreport.html' })
             .when('/releasereport', { templateUrl: 'app/releasereport/releasereport.html' })
             .when('/cardprinter', { templateUrl: 'app/cardprinter/cardprinter.html' })
+          .when('/securitylog', { templateUrl: 'app/securityreq/securitylog.html' })
           .when('/mysettings', { templateUrl: 'app/mysettings/mysettings.html' })  
           .otherwise({ redirectTo: '/' });
     }

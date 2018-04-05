@@ -1,0 +1,69 @@
+<!doctype html>
+<html ng-app="app" ng-csp>
+<head>
+  <title>HKA Trello Resource Management</title>
+  <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+  <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.4.5/ui-grid.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+<body ng-controller="indexCtrlAs as vm">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed" data-target="#navbarSupportedContent" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="glyphicon glyphicon-menu-hamburger"></i>
+        </button>
+        <a class="navbar-brand" href="#"><img alt="HKA" src="http://trelloapp.hka-tech.com/images/hka-caret.jpg"></a>
+      </div>
+          <div class="navbar-collapse" ng-class="{collapse: isCollapsed}" id="navbarSupportedContent">
+            <ul class="nav navbar-nav">
+              <li class="nav-item" ng-repeat="tab in vm.tabs"
+                  ng-class="{active:vm.isActiveTab(tab.title)}"
+                  ng-click="vm.tabClick(tab)">
+                  <a class="nav-link" ng-href="{{tab.url}}"><img height="30" ng-src="{{tab.icon}}"/> {{tab.title}}</a>
+              </li>
+            </ul>
+          </div>
+    </div> 
+  </nav>
+  <section class="container-fluid spacer">
+      <div class="row">
+          <section class="col-xs-12 col-sm-12 fade-back">
+            <div ng-view class="view-content spacer"></div>                 
+          </section>
+      </div>
+  </section>
+  <script type="text/javascript" src="scripts/key.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.3/showdown.js"></script>
+  <!-- Angular-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+  <!-- Angular Plugins -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.4.5/ui-grid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-showdown/1.1.0/ng-showdown.min.js"></script>
+  <!-- Angular App -->
+  <script src="rmapp/app.module.js"></script>
+  <script src="lib/angular/filters.js"></script>
+  <script src="app/services/trelloservice.factory.js"></script>
+  <script src="rmapp/Index/index.controller.js"></script>
+  <script src="rmapp/board/board.controller.js"></script>
+  <script src="rmapp/board/board.service.js"></script>
+  <script src="rmapp/team/team.controller.js"></script>
+  <script src="rmapp/team/team.service.js"></script>
+</body>
+</html>
+

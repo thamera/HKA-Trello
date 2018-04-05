@@ -14,31 +14,15 @@
         var vm = this;
         vm.title = 'HKA Board App';
         vm.tabs = [{
-            title: 'Home',
+            title: 'Board Resourcing',
             url: '#/',
           icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_01.png?1516839208407'
         }, {
-            title: 'Card Printer',
-            url: '#/cardprinter',
+            title: 'Team Resourcing',
+            url: '#/team',
           icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F008.png?1516838754246'
-        }, {
-            title: 'Risk Register',
-            url: '#/riskmgmt',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494'
-        }, {
-            title: 'Security Log',
-            url: '#/securitylog',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_25.png?1520310634792'
-        }, {
-            title: 'Sprint Reporting',
-            url: '#/sprintreport',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fdiagram-icon.png?1516840737971'
-        }, {
-          title: 'My Settings',
-          url: '#/mysettings',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_09.png?1516839218772'
         }];
-        vm.currentTab = 'Home'
+        vm.currentTab = 'Board'
         vm.tabClick = tabClick;
         vm.isActiveTab = isActiveTab;
 

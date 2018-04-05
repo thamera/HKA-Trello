@@ -15,6 +15,7 @@
         delete: { type: 'boolean', title: 'Delete Records' },
         edit: { type: 'boolean', title: 'Edit Records' },
         view: { type: 'boolean', title: 'View Only' },
+        noaccess: { type: 'boolean', title: 'No Access'},
         note: { type: 'string', title: 'Notes', maxLength: 1000, validationMessage: "Maximum of 1,000 characters in the note field" }
       }
     })
@@ -63,6 +64,7 @@
                      vm.entity.delete = true;
                      vm.entity.edit = true;
                      vm.entity.view = true;
+                     vm.entity.noaccess = false;
                    }
                  }
                },
@@ -70,6 +72,7 @@
                 onChange: function(modelValue,form) {
                    if (modelValue == true) {
                      vm.entity.view = true;
+                     vm.entity.noaccess = false;
                    } else {
                      vm.entity.full = false;
                    }
@@ -79,6 +82,7 @@
                  onChange: function(modelValue,form) {
                    if (modelValue == true) {
                      vm.entity.view = true;
+                     vm.entity.noaccess = false;
                    } else {
                      vm.entity.full = false;
                    }
@@ -88,6 +92,7 @@
                  onChange: function(modelValue,form) {
                    if (modelValue == true) {
                      vm.entity.view = true;
+                     vm.entity.noaccess = false;
                    } else {
                      vm.entity.full = false;
                    }
@@ -100,6 +105,18 @@
                      vm.entity.delete = false;
                      vm.entity.edit = false;
                      vm.entity.full = false;
+                     vm.entity.noaccess = false;
+                   }
+                 }
+               },
+               {key: 'noaccess',
+                 onChange: function(modelValue,form) {
+                   if (modelValue == true) {
+                     vm.entity.create = false;
+                     vm.entity.delete = false;
+                     vm.entity.edit = false;
+                     vm.entity.full = false;
+                     vm.entity.view = false;
                    }
                  }
                },
@@ -128,6 +145,7 @@
             numberSelected: 0
       };
       $scope.editNote = RowEditor.editRow;
+      $scope.clearNote = clearNote;
       
       // UI Grid (Checklist Grid)
       vm.securityreqGridOptions = {
@@ -144,7 +162,9 @@
                 width: '75',
                 enableFiltering: false,
                 enableSorting: false,
-                cellTemplate: '<div><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.editNote(grid, row)"><i class="fa fa-edit">Edit</i></button></div>',
+                cellTemplate: '<div><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.editNote(grid, row)"><i class="fas fa-edit"></i></button>'
+                             + '&nbsp;<button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.clearNote(grid, row)"><i class="fas fa-trash-alt"></i></button>'
+                             + '</div>',
                 enableCellEdit: false
               },
               { name: 'name', 
@@ -179,6 +199,12 @@
               { name: 'view',
                 type: 'boolean',
                 width: '75',
+                cellTemplate: '<div><input type="checkbox" disabled ng-model="MODEL_COL_FIELD"/></div>'
+              },
+              { name: 'no access',
+                field: 'noaccess',
+                type: 'boolean',
+                width: '100',
                 cellTemplate: '<div><input type="checkbox" disabled ng-model="MODEL_COL_FIELD"/></div>'
               },
               { name: 'note',
@@ -226,10 +252,19 @@
             group["edit"] = vm.model.cardSettings["hka_securityreq_" + group.name].edit;
             group["delete"] = vm.model.cardSettings["hka_securityreq_" + group.name].delete;
             group["view"] = vm.model.cardSettings["hka_securityreq_" + group.name].view;
+            group["noaccess"] = vm.model.cardSettings["hka_securityreq_" + group.name].noaccess;
             group["note"] = vm.model.cardSettings["hka_securityreq_" + group.name].note;
           }
           //console.dir(group);
           vm.securityreqGridOptions.data.push(group);
+        }
+        
+        for ( var prop in vm.model.cardSettings ) {
+          //console.log(vm.securityreqGridOptions.data.filter(group => (group.name === vm.model.cardSettings[prop].name)));
+          if(vm.securityreqGridOptions.data.filter(group => (group.name === vm.model.cardSettings[prop].name)).length == 0 ) {
+            console.dir(vm.model.cardSettings[prop]);
+            vm.securityreqGridOptions.data.push(vm.model.cardSettings[prop]);
+          }
         }
       }
       
@@ -238,5 +273,20 @@
             //vm.myGridApi.selection.on.rowSelectionChanged($scope, vm.selectionChanged);
       }
     }
+  
+  function clearNote(grid, row) {
+    console.dir(row);
+    delete row.entity.complete;
+    delete row.entity.create;
+    delete row.entity.delete;
+    delete row.entity.edit;
+    delete row.entity.full;
+    delete row.entity.note;
+    delete row.entity.view;
+    delete row.entity.noaccess
+    console.dir(row);
+    //row.entity = angular.extend(row.entity, vm.entity);
+    return t.remove('card', 'shared', 'hka_securityreq_'+ row.entity.name);
+  }
 
 })();

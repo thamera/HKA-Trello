@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <style>
+      select { height: 30px; }
+      * { text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      I'm Here
+    </div>
+  </body>
+  <script>
+    let authorize;
+
+    try {
+      if (window.opener && typeof window.opener.authorize === 'function') {
+        authorize = window.opener.authorize;
+      }
+    } catch (e) {
+      // Security settings are preventing this, fall back to local storage.
+    }
+    console.dir(this);
+    if (authorize) {
+      authorize(token);
+    } else {
+      localStorage.setItem('token', token);
+    }
+
+    //setTimeout(function(){ window.close(); }, 1000);
+  </script>
+</html>

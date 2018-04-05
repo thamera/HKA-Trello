@@ -6,6 +6,7 @@ var cors = require('cors');
 var express = require('express');
 var path = require('path');
 var api = require('./routes/api');
+var auth = require('./routes/auth');
 
 var router = express.Router();
 
@@ -20,6 +21,7 @@ app.use(cors({origins:'*'}));
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/api',api);
+app.use('/auth',auth);
 //app.use('/',routes);
 
 // http://expressjs.com/en/starter/basic-routing.html
