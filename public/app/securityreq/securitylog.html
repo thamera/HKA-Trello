@@ -1,0 +1,15 @@
+<div ng-controller="securitylogCtrlAs as securitylog">
+  <h3 class="text-center">{{securitylog.title}}</h3>
+  <div class="row spacer">
+    <div class="checklistGrid">
+      <div ui-grid="securitylog.securityGridOptions" ui-grid-grouping class=""></div>
+    </div>
+  </div>
+  <div class="row spacer">
+      <div class="col-xs-12">
+        <button type="button" ng-click="securitylog.getRegisterReport()" class="btn btn-primary">
+            Generate Register Report
+        </button>
+      </div>
+  </div>
+</div>

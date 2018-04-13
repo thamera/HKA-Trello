@@ -16,23 +16,27 @@
         vm.tabs = [{
             title: 'Home',
             url: '#/',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_01.png?1516839208407'
+          icon: 'https://trelloapp.hka-tech.com/images/Home.png'
         }, {
             title: 'Card Printer',
             url: '#/cardprinter',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F008.png?1516838754246'
+          icon: 'https://trelloapp.hka-tech.com/images/print.png'
         }, {
             title: 'Risk Register',
             url: '#/riskmgmt',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494"'
+          icon: 'https://trelloapp.hka-tech.com/images/exclm.png'
+        }, {
+            title: 'Security Log',
+            url: '#/securitylog',
+          icon: 'https://trelloapp.hka-tech.com/images/SHIELD_CHECK.png'
         }, {
             title: 'Sprint Reporting',
             url: '#/sprintreport',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fdiagram-icon.png?1516840737971'
+          icon: 'https://trelloapp.hka-tech.com/images/diagram-icon.png'
         }, {
           title: 'My Settings',
           url: '#/mysettings',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_09.png?1516839218772'
+          icon: 'https://trelloapp.hka-tech.com/images/gear.png'
         }];
         vm.currentTab = 'Home'
         vm.tabClick = tabClick;

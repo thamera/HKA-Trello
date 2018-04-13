@@ -1,0 +1,66 @@
+<!doctype html>
+<html ng-app="app" ng-csp>
+<head>
+  <title>HKA Trello Board App</title>
+  <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+  <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+<body ng-controller="securityreqCtrlAs as vm">
+  <header class="">
+      <div class="container">
+          <div class="row spacer">
+              <div class="col-md-12">
+                  <!--heading--> 
+              </div>
+          </div>
+      </div>
+  </header>
+  <section class="container-fluid spacer">
+      <div class="row">
+          <section class="col-xs-12 col-sm-12 fade-back">
+            <div class="view-content">
+
+
+              <h2 class="text-center">
+                {{vm.title}}
+              </h2>
+              <div class="row">
+                <div class="securityreqGrid">
+                  <div ui-grid="vm.securityreqGridOptions" ui-grid-resize-columns class=""></div>
+                </div>
+              </div>
+            </div>
+          </section>
+      </div>
+  </section>
+  <script type="text/javascript" src="scripts/key.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+  <!-- Angular-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+  <!-- Angular Plugins -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="https://cdn.rawgit.com/mike-marcacci/objectpath/v1.1.0/lib/ObjectPath.js"></script> 
+  <script src="https://cdn.rawgit.com/geraintluff/tv4/v1.1.9/tv4.min.js"></script>
+  <script src="https://cdn.rawgit.com/Textalk/angular-schema-form/0.8.0/dist/schema-form.js"></script>
+  <script src="https://cdn.rawgit.com/Textalk/angular-schema-form/0.8.0/dist/bootstrap-decorator.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+  <!-- Angular App -->
+  <script src="app/securityreq.module.js"></script>
+  <script src="app/services/trelloservice.factory.js"></script>
+
+  <script src="app/securityreq/securityreq.controller.js"></script>
+  <script src="app/securityreq/securityreq.service.js"></script>
+</body>
+</html>

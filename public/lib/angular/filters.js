@@ -1,3 +1,5 @@
+/* global angular */
+
 angular.module("app")
 .filter('groupByLabel', ['filterStabilize', function (stabilize) {
     return stabilize(function (data, key) {

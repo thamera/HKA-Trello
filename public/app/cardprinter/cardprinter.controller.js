@@ -1,4 +1,4 @@
-/* global angular */
+/* global angular, context */
 
 (function () {
     'use strict';
@@ -26,27 +26,36 @@
         vm.getCheckState = getCheckState;
         vm.getAttachmentImg = getAttachmentImg;
         vm.getImage = getImage;
+      vm.getReport = getReport;
 
         activate();
 
         function activate() {
-            console.log("carprinter.controller>activate");
-            console.groupCollapsed("Initialize Printable Card");
-            cardprinterService.init()
-                .then(function (data) {
-                    vm.report = cardprinterService.settings;
-                    cardprinterService.getReportLogo().then(function (url) {
-                        // Uncomment below to view data model
-                        //console.dir(vm.report);
-                        vm.report.board["hka_clientlogo"] = url;
-                        console.groupEnd();
-                    });
-                });
-            
-            $ocLazyLoad.load({
-                serie: true,
-                files: ['lib/FileSaver.min.js', 'lib/jquery/jquery.wordexport.js', 'css/reporting.css']
-            })
+          console.log("carprinter.controller>activate");
+          console.groupCollapsed("Initialize Printable Card");
+          cardprinterService.init()
+              .then(function (data) {
+                  vm.report = cardprinterService.settings;
+                  
+                  if (context.card){
+                    var thiscard = $.grep(vm.report.board.cards, function(card) { return card.id == context.card });
+                    thiscard[0].print = true;
+                    console.dir(thiscard);
+                    console.dir(vm.report.board.cards);
+                  }
+                    
+                  cardprinterService.getReportLogo().then(function (url) {
+                      // Uncomment below to view data model
+                      //console.dir(vm.report);
+                      vm.report.board["hka_clientlogo"] = url;
+                      console.groupEnd();
+                  });
+              });
+
+          $ocLazyLoad.load({
+              serie: true,
+              files: ['lib/FileSaver.min.js', 'lib/jquery/jquery.wordexport.js', 'css/reporting.css']
+          })
         }
 
         function exportWord() {
@@ -78,5 +87,9 @@
             console.log(url);
             return cardprinterService.convertToBase64(url);
         }
+      
+      function getReport(){
+        cardprinterService.getReport(vm.report);
+      }
     }
 })();

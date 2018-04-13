@@ -71,7 +71,7 @@
             for (var i = 0; i < service.settings.board.cards.length; i++) {
                 if (service.settings.board.cards[i]["name"] === cardName) {
                     trelloService.getData('cards/' + service.settings.board.cards[i].id + "/attachments/" + service.settings.board.cards[i].idAttachmentCover, {}, function (data) {
-                        var url = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2FHKA.png?1516074405379";
+                        var url = "https://trelloapp.hka-tech.com/images/HKA.png";
                         //if (data.url) {
                         //    url = data.url;
                         //}
@@ -88,7 +88,7 @@
         console.dir(report);
         $http({
           method: "POST",
-          url: 'https://hka-trello.glitch.me/api/sprintReport',
+          url: 'https://trelloapp.hka-tech.com/api/sprintReport',
           data: report,
           responseType: 'arraybuffer'
         })

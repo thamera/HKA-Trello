@@ -4,7 +4,8 @@
         <div class="col-xs-12">
             <div id="mysettings">
                 <div class="well">
-                    <h3>HKA Trello App General Settings</h3>
+                  <h3>HKA Trello App General Settings&nbsp;&nbsp;<button type="button" class="btn btn-xs btn-primary" ng-click="mysettings.editSettings()"><i class="fas fa-edit"></i></button></h3>
+                   
                     <div class="row">
                         <div class="col-xs-12">
                             <dl class="dl-horizontal">
@@ -22,6 +23,8 @@
                                 <dd>{{mysettings.settings.board.hka_freshdeskurl}}</dd>
                                 <dt>Project Numbers:</dt>
                                 <dd>{{mysettings.settings.board.hka_projectnumbers}}</dd>
+                                <dt>Security Groups:</dt>
+                                <dd>{{mysettings.settings.board.hka_securitygroups}}</dd>
                             </dl>
                         </div>
                     </div>

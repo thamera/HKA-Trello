@@ -70,34 +70,41 @@
               idList: newCard.idList,
               idLabels: newCard.idLabels,
             }
+            console.log('checklist.service>creating card...');
+            console.dir(newCard);
             trelloService.postData('cards', card, function (data) {
               service.model.ready = trelloService.ready;
               service.model.error = trelloService.error;
               //console.dir(data);
               var newCardId = data.id;
               var newCardUrl = data.url
-              
+              console.log('checklist.service>new card id: ' + newCardId);
               var link = {
                 name: 'CreatedFromChecklist',
                 url: newCard.fromURL
               }
-              
+              console.log('checklist.service>creating link to original card...');
               trelloService.postData('cards/' + data.id + '/attachments',link,function(data) {
                 //console.dir(data);
-                t.set(newCardId,'shared',{ hka_fromCardId: newCard.fromCardId,hka_fromCard: newCard.fromCard, hka_fromChecklistId: newCard.fromChecklistId, hka_fromChecklist: newCard.fromChecklist})
-                .then(function() {
-                   trelloService.putData(
+                //console.log('checklist.service>creating plugin properties for new card...');
+                //console.log(newCardId);
+                //t.set(newCardId,'shared',{ hka_fromCardId: newCard.fromCardId,hka_fromCard: newCard.fromCard, hka_fromChecklistId: newCard.fromChecklistId, hka_fromChecklist: newCard.fromChecklist})
+                //.then(function() {
+                  console.log('checklist.service>put new card refence on checklist item...'); 
+                  trelloService.putData(
                      'cards/' + newCard.shortLink + '/checklist/' + newCard.fromChecklistCollection + '/checkItem/' + newCard.fromChecklistId,
                      { name: newCard.fromChecklist + "-->Converted to card on " + moment().format("MM/dd/YYYY h:mm a") + " (" + newCardUrl + ")--> " },
                      function (data) { //TODO:  need to convert date to readable date and add the url for the card to the end of this string
-                       console.log(i + " of " + len); 
-                       if (i == len - 1) {
-                            deferred.resolve(true);
-                        } else {
-                            deferred.resolve(false);
-                        }
+                      deferred.resolve(newCardId);
+                    //   console.log(i + " of " + len); 
+                    //   if (i == len - 1) {
+                    //        deferred.resolve(true);
+                    //    } else {
+                    //        deferred.resolve(false);
+                    //    }
                      });
-                });
+                          
+                //});
                 //console.log("Attachement:");
                 //console.dir(data);
                 //  deferred.resolve(data);

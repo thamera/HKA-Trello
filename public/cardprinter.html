@@ -1,0 +1,135 @@
+<!doctype html>
+<html ng-app="app" ng-csp>
+<head>
+    <title>HKA Trello Board App</title>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+  <link rel="stylesheet" type="text/css" href="lib/angular/angular-bundle.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+<body ng-controller="cardprinterCtrlAs as cardprint">
+  <header class="">
+      <div class="container">
+          <div class="row spacer">
+              <div class="col-md-12">
+                  heading 
+              </div>
+          </div>
+      </div>
+  </header>
+  <section class="container-fluid spacer">
+    <div class="row">
+      <section class="col-xs-12 col-sm-12 fade-back">
+        <div class="view-content">
+          <h2 class="text-center"><small>{{cardprint.title}}</small></h2>
+          <div class="row spacer">
+              <div class="col-xs-4">
+                  <button type="button" class="btn btn-success btn-block btn-responsive" ng-click="cardprint.exportWord()">Generate Report</button>
+                <!--<button type="button" class="btn btn-success btn-block btn-responsive" ng-click="cardprint.getReport()">Testing</button>-->
+              </div>
+              <div class="col-xs-4">
+
+              </div>
+          </div>
+        </div>
+      </section>
+      <section class="col-xs-12 col-sm-12 fade-back">
+        <div class="row spacer">
+          <div class="col-xs-12 reportviewer">
+              <div id="reportcontent">
+                  <div class="reportcontent" ng-repeat="list in cardprint.report.board.lists | filter: {closed: false}">
+                      <div ng-repeat="card in cardprint.report.board.cards | filter: {idList: list.id, print: true}">
+                          <div style="text-align: center;" class="MsoTitle"><img ng-src="{{cardprint.report.board.hka_logo}}" crossorigin="Anonymous" width="225" height="75" /></div>
+                          <div class="cardprint-headings" style="text-align: center;">
+                              <h1><a ng-href="{{cardprint.report.board.shortUrl}}"><span>{{cardprint.report.board.name}}</span></a></h1>
+                              <h2><a ng-href="{{card.shortUrl}}"><span>{{card.name}}</span></a></h2>
+                              <h3 class="text-center">Trello Card Print</h3>
+                          </div>
+                          <table class="MsoTableGrid cardprint-labels" border="0" cellspacing="24" cellpadding="0" style="text-align: center;mso-cellspacing:.25in;border:none;mso-yfti-tbllook:1184;mso-padding-alt:9.0pt .25in 9.0px .25in;mso-border-insideh:none;mso-border-insidev:none;">
+                              <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;">
+                                  <td valign="top" ng-repeat="label in card.labels" ng-style="{'background': label.color,'border':'solid windowtext 1.0pt','mso-border-alt':'solid windowtext .5pt','padding':'6.0pt .25in 6.0pt .25in'}">
+                                      <p class="MsoNormal">
+                                          <span style="color:white;mso-themecolor:background1;mso-effects-shadow-color:black;mso-effects-shadow-alpha:40.0%;mso-effects-shadow-dpiradius:4.0pt;mso-effects-shadow-dpidistance:3.0pt;mso-effects-shadow-angledirection:2700000;mso-effects-shadow-align:topleft;mso-effects-shadow-pctsx:100.0%;mso-effects-shadow-pctsy:100.0%;mso-effects-shadow-anglekx:0;mso-effects-shadow-angleky:0">
+                                              {{label.name}}
+                                          </span>
+                                      </p>
+                                  </td>
+                              </tr>
+                          </table>
+                          <p style="font-size:1.1667em;"><strong>From List: </strong>{{list.name}}</p>
+                          <p ng-if="card.due"><strong>Due Date: </strong>{{card.due | date : cardprint.report.board.hka_dateformat}}</p>
+                          <div class="cardprint-desc" ng-if="card.desc">
+                              <p markdown-to-html="card.desc"></p>
+                          </div>
+                          <div class="cardprint-members" ng-if="card.idMembers">
+                              <h3>Members:</h3>
+                              <ul>
+                                  <li ng-repeat="membership in cardprint.report.board.memberships | customArray:card.idMembers:'idMember'"><a ng-href="{{membership.member.url}}"><img ng-src="https://trello-avatars.s3.amazonaws.com/{{membership.member.avatarHash}}/30.png" crossorigin="Anonymous" style="padding-right:10px;" />{{membership.member.fullName}}</a></li>
+                              </ul>
+                          </div>
+                          <div ng-if="card.checklists.length">
+                              <h3>Checklists:</h3>
+                              <div ng-repeat="checklist in card.checklists">
+                                  <strong>{{checklist.name}}</strong>
+                                  <div ng-repeat="checkitem in checklist.checkItems">
+                                      <input ng-checked="cardprint.getCheckState(checkitem.state)" type="checkbox" disabled><span ng-class="{'cardprint-checkitem': true, 'cardprint-checked': cardprint.getCheckState(checkitem.state)}">{{checkitem.name}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="cardprint-attach" ng-if="card.attachments.length">
+                              <h3>Attachments:</h3>
+                              <table style="width:100%;text-align:center;table-layout:fixed;">
+                                  <tr ng-repeat="attacment in card.attachments" ng-switch on="$index % 3">
+                                      <td ng-switch-when="0" style="padding-bottom:10px;">
+                                          <a ng-href="{{card.attachments[$index].url}}"><span ng-if="card.attachments[$index].previews[0].url"><img ng-src="{{card.attachments[$index].previews[0].url}}" crossorigin="Anonymous" /><br /></span>{{card.attachments[$index].name}}</a>
+                                      </td>
+                                      <td ng-switch-when="0" style="padding-bottom:10px;">
+                                          <span ng-show="card.attachments[$index+1]">
+                                              <a ng-href="{{card.attachments[$index+1].url}}"><span ng-if="card.attachments[$index+1].previews[0].url"><img ng-src="{{card.attachments[$index+1].previews[0].url}}" crossorigin="Anonymous" /><br /></span>{{card.attachments[$index+1].name}}</a>
+                                          </span>
+                                      </td>
+                                      <td ng-switch-when="0" style="padding-bottom:10px;">
+                                          <span ng-show="card.attachments[$index+2]">
+                                              <a ng-href="{{card.attachments[$index+2].url}}"><span ng-if="card.attachments[$index+2].previews[0].url"><img ng-src="{{card.attachments[$index+2].previews[0].url}}" crossorigin="Anonymous" /><br /></span>{{card.attachments[$index+2].name}}</a>
+                                          </span>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                          <div class="cardprint-comments">
+                              <h3>Comments:</h3>
+                              <ul>
+                                  <li ng-repeat="comment in cardprint.report.comments | filter: {data: {card: {id: card.id}}} | orderBy: 'date'" >
+                                      <strong>{{comment.date | date : cardprint.report.board.hka_dateformat}} - {{comment.memberCreator.fullName}}:</strong> {{comment.data.text}}
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+  <script type="text/javascript" src="scripts/key.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+  <!-- Angular-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+  <!-- Angular Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
+  <!-- Angular App -->
+  <script src="app/cardprinter.module.js"></script>
+  <script src="app/services/trelloservice.factory.js"></script>
+  <script src="app/cardprinter/cardprinter.controller.js"></script>
+  <script src="app/cardprinter/cardprinter.service.js"></script>
+</body>
+</html>

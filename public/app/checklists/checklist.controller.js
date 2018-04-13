@@ -1,4 +1,4 @@
-/* global angular */
+/* global angular, t */
 
 (function () {
     'use strict';
@@ -14,13 +14,16 @@
       var vm = this;
       vm.title = 'Checklists To Cards';
       vm.model = {
-            ready: false,
-            selection: {
-                toList: {},
-                card: {}
-            },
-            numberSelected: 0
+        ready: false,
+        selection: {
+            toList: {},
+            card: {}
+        },
+        numberSelected: 0,
+        
       };
+      vm.promiseIndex = '';
+      vm.promiseMsg = 'Proceed';
       
       // UI Grid (Checklist Grid)
       vm.checklistGridOptions = {
@@ -117,6 +120,10 @@
             return;
         }
         
+        vm.promiseIndex = selection.length;
+        vm.promiseMsg = 'Processing... ';
+        var cardChain = $q.when();
+        
         for (var i = 0; i < selection.length; i++) {
           // Create Cards
           vm.model.ready = false;
@@ -134,13 +141,28 @@
             shortLink: vm.model.selectedCard.shortLink,
             fromChecklistCollection: selection[i].checklistId
           }
-          checklistService.createCard(newCard,i,selection.length)
-          .then(function(isLast){
-            if(isLast) {
-             finishChecklistCreation(selection.length); 
-            }
-          });
+          console.dir(newCard);
+          (function(index,newCard1) {
+            cardChain = cardChain.then(function() {
+              return checklistService.createCard(newCard1,index,selection.length)
+                .then(function(newCardId){
+                  console.log('checklist.service>creating plugin properties for new card...');
+                  console.log(newCardId);
+                  t.set(newCardId,'shared',{ hka_fromCardId: newCard1.fromCardId,hka_fromCard: newCard1.fromCard, hka_fromChecklistId: newCard1.fromChecklistId, hka_fromChecklist: newCard1.fromChecklist});
+                  vm.promiseIndex--;
+              });
+            });
+          })(i,newCard);
+          //checklistService.createCard(newCard,i,selection.length)
+          //.then(function(isLast){
+          //  if(isLast) {
+          //   finishChecklistCreation(selection.length); 
+          //  }
+          //});
         }
+        cardChain.then(function(){
+          finishChecklistCreation(selection.length); 
+        });
       }
       
       function finishChecklistCreation(count) {
@@ -148,6 +170,8 @@
             vm.checklistGridOptions.data.length = 0;
             activate();
             alert("HKA Trello App successfully created " + count + " cards from checklists.  You're welcome.");
+          vm.promiseMsg = 'Proceed';
+          vm.promiseIndex = '';
         }
 
     }

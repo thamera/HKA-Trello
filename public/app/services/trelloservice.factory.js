@@ -14,18 +14,19 @@ Trello.setToken(token);
 
     function trelloService($http, $q) {
         var service = {
-            ready: false,
-            //rest services
-            getData: getData,
-            postData: postData,
-            putData: putData,
-            deleteData: deleteData,
-            postDataPromise: postDataPromise,
-            //trello helpers
-            //boardFromPath: boardFromPath,
-            getBoard: getBoard,
-            forget:forget,
-            error: null
+          ready: false,
+          //rest services
+          getData: getData,
+          postData: postData,
+          putData: putData,
+          deleteData: deleteData,
+          postDataPromise: postDataPromise,
+          //trello helpers
+          //boardFromPath: boardFromPath,
+          getBoard: getBoard,
+          getPluginId: getPluginId,
+          forget:forget,
+          error: null
         };
 
         return service;
@@ -39,7 +40,7 @@ Trello.setToken(token);
 
             var onGetSuccess = function (data) {
                 if (onDataSuccess) {
-                    console.log('successful trello get...');
+                    //console.log('successful trello get...');
                     service.ready = true;
                     onDataSuccess(data);
                 } else {
@@ -129,7 +130,7 @@ Trello.setToken(token);
             var onDeleteSuccess = function (data) {
 
                 if (onDataSuccess) {
-                    console.log('successful trello delete...');
+                    //console.log('successful trello delete...');
                     service.ready = true;
                     onDataSuccess(data);
                 } else {
@@ -148,12 +149,16 @@ Trello.setToken(token);
             }
             getData('boards/' + id, boardOptions, function (board) {  
               var data = { board: board };
-              getData('boards/' + id + '/plugins', {},function (plugins) {
-                for (var j = 0; j < plugins.length; j++){
-                  if ( plugins[j].name = "HKA Trello App" ) {
-                    data.board["hka_trello"] = plugins[j];
-                  }
-                }
+              getPluginId(id)
+              .then( function(pluginId){
+              //getData('boards/' + id + '/plugins', {},function (plugins) {
+              //  for (var j = 0; j < plugins.length; j++){
+              //    if ( plugins.icon.url.indexOf('https://trelloapp.hka-tech.com/') > -1 ) { // plugins[j].name = "HKA Trello App" ) {
+              //      data.board["hka_trello"] = plugins[j];
+              //    }
+              //  }
+                data.board["hka_trello"] = pluginId;
+                
                 for (var i = 0; i < data.board.pluginData.length; i++){
                   if ( data.board.pluginData[i].idPlugin == data.board.hka_trello.id) {
                     var value = JSON.parse(data.board.pluginData[i].value);
@@ -165,6 +170,7 @@ Trello.setToken(token);
                     data.board["hka_sprintstart"] = new Date(value.hka_sprintstart);
                     data.board["hka_sprintend"] = new Date(value.hka_sprintend);
                     data.board["hka_projectnumbers"] = value.hka_projectnumbers;
+                    data.board["hka_securitygroups"] = value.hka_securitygroups;
                   }
                 }
 
@@ -181,6 +187,27 @@ Trello.setToken(token);
 
             return deferred.promise;
         }
+      
+      function getPluginId(id){
+        var deferred = $q.defer();
+        var pluginId = '';
+        
+        getData('boards/' + id + '/plugins', {},function (plugins) {
+          for (var j = 0; j < plugins.length; j++){
+            if ( plugins[j].icon.url.indexOf('https://trelloapp.hka-tech.com/') > -1 ) { // plugins[j].name = "HKA Trello App" ) {
+              pluginId = plugins[j];
+            }
+          }
+
+          if (pluginId === '') {
+            deferred.reject("HKA-Tech Power Up could not be found on this board");
+          } else {
+            deferred.resolve(pluginId);
+          }
+        });
+        
+        return deferred.promise;
+      }
       
         function forget() {
           Trello.deauthorize();

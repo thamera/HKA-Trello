@@ -43,7 +43,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button ng-disabled="vm.model.numberSelected == 0 || vm.model.selection.tolist == undefined" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">Proceed</button>
+                        <button ng-disabled="vm.model.numberSelected == 0 || vm.model.selection.tolist == undefined" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">{{ vm.promiseMsg }}{{ vm.promiseIndex }}</button>
                     </div>
                 </div>
               </div>

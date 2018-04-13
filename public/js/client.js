@@ -2,33 +2,38 @@
 
 var Promise = TrelloPowerUp.Promise;
 
-var ICON_HKA = 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2FHKA-Caret.jpg?1516074405408';
-var ICON_FD = 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Ffd.png?1516074405366';
-var BLACK_ROCKET_ICON = 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421';
-var CALENDAR_WARNING_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-warning.svg?1504481230707';
-var CALENDAR_STAR_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-star.svg?1504481230561';
-var MILESTONE_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_11.png?1516838702748";
-var RISK_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494";
-var CHECK2CARD_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F005.png?1516838750019";
+var ICON_HKA = 'https://trelloapp.hka-tech.com/images/HKA-Caret.jpg';
+var ICON_FD = 'https://trelloapp.hka-tech.com/images/fd.png';
+var CALENDAR_WARNING_ICON = 'https://trelloapp.hka-tech.com/images/calendar-warning.svg';
+var CALENDAR_STAR_ICON = 'https://trelloapp.hka-tech.com/images/calendar-star.svg';
+var MILESTONE_ICON = "https://trelloapp.hka-tech.com/images/calendar.png";
+var RISK_ICON = "https://trelloapp.hka-tech.com/images/exclm.png";
+var CHECK2CARD_ICON = "https://trelloapp.hka-tech.com/images/CHECKLIST.png";
+var SECURITY_ICON = "https://trelloapp.hka-tech.com/images/SHIELD_CHECK.png";
+var PRINTER_ICON = "https://trelloapp.hka-tech.com/images/print.png";
+var RESOURCE_ICON = "https://trelloapp.hka-tech.com/images/contacts.png";
 
-var TRELLOKEY = '2aa92cafd38af541fd512aa516050986'
+var token;
+
+var TRELLOKEY = '2aa92cafd38af541fd512aa516050986';
+var GOTOMEETINGKEY = 'C7bpAgUPDuDeekkoy469byHgPXsOBbEm';
 
 var boardButtonCallback = function(t){
-  return t.get('member','private','token')
-  .then(function(token){
-    if (!token) {
-     return t.modal({
-       title: 'Authorize HKA Trello App',
-       args: { apiKey: TRELLOKEY }, // Pass in API key to the iframe
-       url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
-       height: 500,
-       fullscreen:true,
-       accentColor: '#3A96A3'
-     });
+  return t.get('member','private','token') 
+  .then(function(myToken){
+    if (!myToken) {
+      return t.modal({
+        title: 'Authorize HKA Trello App',
+        args: { apiKey: TRELLOKEY , token: myToken}, // Pass in API key to the iframe
+        url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
+        height: 500,
+        fullscreen:true,
+        accentColor: '#3A96A3'
+      });
     } else {
         return t.modal({
               url: './boardapp.html', // The URL to load for the iframe
-              args: { apiKey: TRELLOKEY, apiToken: token }, // Optional args to access later with t.arg('text') on './modal.html'
+              args: { apiKey: TRELLOKEY, apiToken: myToken }, // Optional args to access later with t.arg('text') on './modal.html'
               accentColor: '#3A96A3', // Optional color for the modal header 
               height: 500, // Initial height for iframe; not used if fullscreen is true
               fullscreen: true, // Whether the modal should stretch to take up the whole screen
@@ -38,6 +43,79 @@ var boardButtonCallback = function(t){
             })
       }
   })
+}
+
+var resourcingBoardButtonCallback = function(t){
+  var c = t.getContext()
+  
+  return t.get('member','private','token') 
+  .then(function(myToken){
+    if (!myToken) {
+      return t.modal({
+        title: 'Authorize HKA Trello App',
+        args: { apiKey: TRELLOKEY , token: myToken}, // Pass in API key to the iframe
+        url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
+        height: 500,
+        fullscreen:true,
+        accentColor: '#3A96A3'
+      });
+    } else if (c.permissions.organization && c.member == "539f69bdff79fbf484dbd79d") {
+        return t.modal({
+              url: './resourceapp.html', // The URL to load for the iframe
+              args: { apiKey: TRELLOKEY, apiToken: myToken }, // Optional args to access later with t.arg('text') on './modal.html'
+              accentColor: '#3A96A3', // Optional color for the modal header 
+              height: 500, // Initial height for iframe; not used if fullscreen is true
+              fullscreen: true, // Whether the modal should stretch to take up the whole screen
+              callback: function() { console.log('Goodbye.'); }, // optional function called if user closes modal (via `X` or escape)
+              title: 'HKA Resource Management', // Optional title for modal header
+              // You can add up to 3 action buttons on the modal header - max 1 on the right side.
+            })
+      }
+  })
+}
+
+var g2mBoardButtonCallback = function(t){
+  return t.get('member','private','g2m_token')
+  .then(function(token){
+    if(!token) {
+      return t.modal({
+        title: 'Authorize GoToMeeting Account',
+        args: { go2Key: GOTOMEETINGKEY , token: token}, // Pass in API key to the iframe
+        //url: './auth/g2m',
+        url: './g2m.html', // Check out public/authorize.html to see how to ask a user to auth
+        height: 500,
+        fullscreen:true,
+        accentColor: '#3A96A3'//,
+        //callback: function(data) { console.log(data); }        
+      });
+    } else {
+      return t.modal({
+              url: './boardapp.html', // The URL to load for the iframe
+              args: { apiKey: TRELLOKEY, go2Key: GOTOMEETINGKEY , go2Token: token }, // Optional args to access later with t.arg('text') on './modal.html'
+              accentColor: '#3A96A3', // Optional color for the modal header 
+              height: 500, // Initial height for iframe; not used if fullscreen is true
+              fullscreen: true, // Whether the modal should stretch to take up the whole screen
+              callback: function() { console.log('Goodbye.'); }, // optional function called if user closes modal (via `X` or escape)
+              title: 'HKA Board App', // Optional title for modal header
+              // You can add up to 3 action buttons on the modal header - max 1 on the right side.
+            })
+    }
+  });
+}
+
+var cardPrinterButtonCallback = function(t){
+  return t.get('member','private','token')
+  .then(function(token){
+    return t.modal({
+      title: "Card Printer",
+      args: { apiKey: TRELLOKEY, apiToken: token },
+      accentColor: '#3A96A3',
+      height: 500,
+      fullscreen: true,
+      callback: function() { console.log('Goodbye.'); },
+      url: 'cardprinter.html'
+    });
+  });
 }
 
 var checklist2CardButtonCallback = function(t){
@@ -108,6 +186,32 @@ var riskCardButtonCallback = function(t){
 	  url: './app/riskmgmt/riskmgmtform.html',
     height: 500
 	});
+}
+
+var securityRequirementsButtonCallback = function(t){
+  return t.get('member','private','token')
+  .then(function(token){
+    if (!token) {
+     return t.modal({
+       title: 'Authorize HKA Trello App',
+       args: { apiKey: TRELLOKEY }, // Pass in API key to the iframe
+       url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
+       height: 500,
+       fullscreen:true,
+       accentColor: '#3A96A3'
+     });
+    } else {
+      return t.modal({
+        title: "Security Requirements",
+        args: { apiKey: TRELLOKEY, apiToken: token },
+        accentColor: '#3A96A3',
+        height: 500,
+        fullscreen: true,
+        callback: function() { console.log('Goodbye.'); },
+        url: 'securityreq.html',
+      });
+    }
+  })
 }
 
 var cardDetailBadgesSetup = function(t, options){
@@ -325,8 +429,29 @@ var cardBadgesSetup = function(t, options){
         })
       }
     }
+    
+    // If card has security requirements
+    var securityReqsCount = 0;
+    var completedSecurityReqs = 0;
+    var hasSecurityReqs = false;
+    for (var property in cardData) {
+      if (cardData[property].isSecurityReq) {
+        hasSecurityReqs = true;
+        securityReqsCount++;
+        if (cardData[property].complete == false) { completedSecurityReqs++; }
+      }
+    }
+    if (hasSecurityReqs){
+      badges.push({
+        title: "Security Requirements",
+        text: completedSecurityReqs + ' of ' + securityReqsCount,
+        icon: SECURITY_ICON
+      })
+    }
+    
     return badges;
   })
+  
 
   return promise;
 }
@@ -366,6 +491,18 @@ function getScoreLabel(value){
 
 TrelloPowerUp.initialize({
   // Start adding handlers for your capabilities here!
+  'authorization-status': function(t, options){
+    
+    return t.get('member', 'private', 'token')
+    .then(function(token){
+      if(token){
+        return { authorized: true };
+      }
+      return { authorized: true };
+    });
+    //return {authorized: true};
+    //return new TrelloPowerUp.Promise((resolve) => resolve({ authorized: true }));
+  },
   'attachment-sections': function(t, options){
     return Promise.all([
       t.get('member','private'),
@@ -432,11 +569,27 @@ TrelloPowerUp.initialize({
     });
   },
   'board-buttons': function(t, options){
-    return [{
+    var c = t.getContext();
+    
+    var buttons = [{
       icon: ICON_HKA ,
       text: 'HKA Trello App',
       callback: boardButtonCallback
-    }]
+    /*},{
+      icon: ICON_HKA ,
+      text: 'HKA GoToMeetings',
+      callback: g2mBoardButtonCallback*/
+    }];
+    
+    if (c.permissions.organization) {
+      buttons.push({
+        icon: RESOURCE_ICON ,
+        text: 'Resource Mgmt',
+        callback: resourcingBoardButtonCallback
+      });
+    }
+    
+	  return buttons;
   },
   'card-buttons': function(t, options) {
     var promise = Promise.all([
@@ -444,15 +597,25 @@ TrelloPowerUp.initialize({
       t.list('id','name')
     ])
     .spread(function(boardProps,currentList){
-      var buttons = [{
+      var buttons = [
+      {
+        icon: PRINTER_ICON,
+        text: "Card Printer (testing only)",
+        callback: cardPrinterButtonCallback
+      },{
         icon: CHECK2CARD_ICON,
-        text: "Checklist to Cards",
+        text: "Checklist 2 Cards",
         callback: checklist2CardButtonCallback
       },
        {
          icon: ICON_FD,
-         text: "Send To Freshdesk",
+         text: "Send 2 Freshdesk",
          callback: sendToFreshdeskButtonCallback
+       },
+       {
+         icon: SECURITY_ICON,
+         text: "Security Requirements",
+         callback: securityRequirementsButtonCallback
        }];
       if (currentList.id == boardProps.milestonelist){
         buttons.push({
@@ -488,25 +651,21 @@ TrelloPowerUp.initialize({
       height: 184
     })
   },
-  'authorization-status': function(t, options){
-    return t.get('member', 'private', 'token')
-    .then(function(token){
-      if(token){
-        return { authorized: true };
-      }
-      return { authorized: false };
-    });
-  },
   'show-authorization': function(t, options){
+    return Promise.all([
+      t.get('member','private')
+    ])
+    .spread(function(creds){
     if (TRELLOKEY) {
       return t.popup({
         title: 'Authorize HKA Trello App',
-        args: { apiKey: TRELLOKEY }, // Pass in API key to the iframe
+        args: { apiKey: TRELLOKEY, creds: creds }, // Pass in API key to the iframe
         url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
         height: 140,
       });
     } else {
       console.log("🙈 Looks like you need to add your API key to the project!");
     }
+    });
   }
 });

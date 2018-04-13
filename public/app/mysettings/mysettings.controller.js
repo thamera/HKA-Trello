@@ -10,26 +10,27 @@
     mysettingsCtrlAs.$inject = ['mysettingsService'];
   
     function mysettingsCtrlAs(mysettingsService) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'My Settings';
-        vm.removeFreshdesk = removeFreshdesk;
-        vm.removeTrello = removeTrello;
+      /* jshint validthis:true */
+      var vm = this;
+      vm.title = 'My Settings';
+      vm.removeFreshdesk = removeFreshdesk;
+      vm.removeTrello = removeTrello;
+      vm.editSettings = editSettings;
 
-        activate();
+      activate();
 
-        function activate() {
-          console.log("mysettings.controller>activate");
-          console.groupCollapsed("Initialize My Settings");
-          
-          mysettingsService.init()
-          .then(function (data) {
-            vm.settings = mysettingsService.settings;
-            vm.context = context;
-            console.dir(vm);
-            console.groupEnd();  // End Initialize Console Group
-          });
-        }
+      function activate() {
+        console.log("mysettings.controller>activate");
+        console.groupCollapsed("Initialize My Settings");
+
+        mysettingsService.init()
+        .then(function (data) {
+          vm.settings = mysettingsService.settings;
+          vm.context = context;
+          console.dir(vm);
+          console.groupEnd();  // End Initialize Console Group
+        });
+      }
       
       function removeFreshdesk() {
         t.remove('member','private','freshdeskApiKey');
@@ -44,6 +45,10 @@
           console.log("Removed Trello Token...");
           t.closeModal();
         });
+      }
+      
+      function editSettings() {
+        
       }
     }
 })();

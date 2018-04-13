@@ -14,7 +14,7 @@
           // 3rd Party Modules
           'ui.grid',
           'ui.grid.grouping',
-          'ui.grid.selection',
+          'ui.grid.selection'
         ])
         //.config(routeConfig)
         .config(compileProvider);

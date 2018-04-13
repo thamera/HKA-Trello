@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h1>
+    Team Resource Reporting<br /><small></small>
+  </h1>
+</div>
+<div ng-controller="teamCtrlAs as vm">
+  <form class="form-inline" id="hka-settings">
+    <div class="form-group">
+      <label for="hka_reportingstart">
+         Reporting Start Date
+      </label>
+      <input date-input type="date" id="hka_reportingstart" ng-model="vm.hka_reportingstart" ng-change="vm.updateSetting('hka_reportingstart')" value="{{vm.hka_reportingstart | date: 'yyyy-MM-dd'}}" />
+    </div>
+    <div class="form-group">
+      <label for="hka_reportingfinish">
+         Reporting Finish Date
+      </label>
+      <input date-input type="date" id="hka_reportingfinish" ng-model="vm.hka_reportingfinish" ng-change="vm.updateSetting('hka_reportingfinish')" value="{{vm.hka_reportingfinish | date: 'yyyy-MM-dd'}}" />
+    </div>
+  </form>
+  <div class="resourceGrid">
+    <div ui-grid="vm.GridOptions" ui-grid-grouping ui-grid-selection ui-grid-pinning class=""></div>
+  </div>
+</div>

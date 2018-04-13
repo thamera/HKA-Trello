@@ -151,7 +151,7 @@ var getFile = function ( thisFile) {
 var onGetSuccess = function (data) {
   var context = t.getContext();
   
-  Trello.post('cards/' + context.card + '/attachments',{name:'Freshdesk Ticket',url:'http://hka-tech.freshdesk.com/support/tickets/' + data.id})
+  Trello.post('cards/' + context.card + '/attachments',{name:'Freshdesk Ticket',url:'https://hka-tech.freshdesk.com/support/tickets/' + data.id})
   .then(function(){
     t.closeModal();
   });
