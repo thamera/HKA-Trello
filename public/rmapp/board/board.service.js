@@ -28,6 +28,9 @@
           //console.dir(boardData);
           service.model = boardData;
           
+          //console.log(service.model.hka_targetstart );
+          //console.log(service.model.hka_targetfinish );
+          
           service.model.hka_targetstart = new Date(service.model.hka_targetstart );
           service.model.hka_targetfinish = new Date(service.model.hka_targetfinish );
           
@@ -49,15 +52,17 @@
       }
       
       function getMonthsArray(start,end){
-        var dateStart = moment(start);
-        var dateEnd = moment(end);
         var timeValues = [];
-
-        while (dateEnd > dateStart || dateStart.format('M') === dateEnd.format('M')) {
-           timeValues.push(dateStart.format('MM-YYYY'));
-           dateStart.add(1,'month');
+        
+        if(!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+          var dateStart = moment(start);
+          var dateEnd = moment(end);
+          while (dateEnd > dateStart || dateStart.format('M') === dateEnd.format('M')) {
+            timeValues.push(dateStart.format('MM-YYYY'));
+            dateStart.add(1,'month');
+          }
         }
-        return timeValues
+        return timeValues;
       }
            
     }

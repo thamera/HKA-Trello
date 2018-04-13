@@ -17,6 +17,7 @@
                   data:[]};
       vm.grid = {
         columns: [
+          { name: 'Board', field: 'boardName', pinnedLeft:true,width:'250',grouping: { groupPriority: 0 } },
           { name:'Resource', field: 'member',pinnedLeft:true,width:'175'}
         ]
       }
@@ -27,7 +28,7 @@
       vm.GridOptions = {
         enableGridMenu: true,
         enableSorting: true,
-        enableRowSelection: true,
+        enableRowSelection: true,groupingShowGroupingMenu: true,
         //enableSelectAll: true,
         selectionRowHeaderWidth: 35,
         //multiSelect: true,
@@ -81,6 +82,7 @@
         });*/
         vm.model.timeValues = teamService.getMonthsArray(vm.hka_reportingstart,vm.hka_reportingfinish);
         vm.grid.columns = [
+          { name: 'Board', field: 'boardName', pinnedLeft:true,width:'250',grouping: { groupPriority: 0 } },
           { name:'Resource', field: 'member',pinnedLeft:true,width:'175'}
         ];
         resetColumns();

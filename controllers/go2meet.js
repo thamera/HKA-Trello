@@ -6,9 +6,9 @@ var ClientOAuth2 = require('client-oauth2');
 const g2mAuth = new ClientOAuth2({
   clientId: process.env.GOTOMEETINGKEY,
   clientSecret: process.env.GOTOMEETINGSECRET,
-  accessTokenUri: 'https://api.getgo.com/oauth/v2/token',
-  authorizationUri: 'https://api.getgo.com/oauth/v2/authorize',
-  redirectUri: 'http://hka-trello.glitch.me/auth/g2mtoken',
+  accessTokenUri: 'https://trelloapp.hka-tech.com/oauth/v2/token',
+  authorizationUri: 'https://trelloapp.hka-tech.com/oauth/v2/authorize',
+  redirectUri: 'https://trelloapp.hka-tech.com/auth/g2mtoken',
   scopes: []
 });
 
@@ -27,6 +27,6 @@ exports.getToken = function(request,response){
     //refresh the data storage?
     
     //return response.send(data.data);
-    response.redirect('http://hka-trello.glitch.me/g2m/authorized.html?access_token=' + data.data.access_token);
+    response.redirect('https://trelloapp.hka-tech.com/g2m/authorized.html?access_token=' + data.data.access_token);
   });
 }

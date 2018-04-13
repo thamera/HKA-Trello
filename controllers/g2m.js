@@ -39,9 +39,9 @@ exports.authorize = function(request, response) {
       qsObj.code,
       {'grant_type':'authorization_code',
        'code': qsObj.code//,
-       //'redirect_uri': 'http%3A%2F%2Fhka-trello.glitch.me%2Fg2m%2Fauthorized.html'
+       //'redirect_uri': 'http%3A%2F%2Ftrelloapp.hka-tech.com%2Fg2m%2Fauthorized.html'
       },
-      //'grant_type=authorization_code&code=' + qsObj.code + '&redirect_uri=http%3A%2F%2Fhka-trello.glitch.me',
+      //'grant_type=authorization_code&code=' + qsObj.code + '&redirect_uri=http%3A%2F%2Ftrelloapp.hka-tech.com',
       function (e, access_token, refresh_token, results) {
         response.setHeader('Content-Type','application/json');
         if (e) {

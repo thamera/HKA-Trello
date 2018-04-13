@@ -56,7 +56,7 @@ exports.postReport = function(request, response) {
     };
   
   axios
-  .get('http://trelloapp.hka-tech.com/templates/CardTemplate.docx', {
+  .get('https://trelloapp.hka-tech.com/templates/CardTemplate.docx', {
     responseType: 'arraybuffer'
   })
   .then(res => {

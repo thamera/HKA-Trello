@@ -16,11 +16,11 @@
         vm.tabs = [{
             title: 'Board Resourcing',
             url: '#/',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_01.png?1516839208407'
+          icon: 'https://trelloapp.hka-tech.com/images/contact.png'
         }, {
             title: 'Team Resourcing',
             url: '#/team',
-          icon: 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F008.png?1516838754246'
+          icon: 'https://trelloapp.hka-tech.com/images/contacts.png'
         }];
         vm.currentTab = 'Board'
         vm.tabClick = tabClick;

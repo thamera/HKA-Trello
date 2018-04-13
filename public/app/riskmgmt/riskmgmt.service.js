@@ -57,7 +57,7 @@
         console.dir(params);
         $http({
           method: "POST",
-          url: 'https://hka-trello.glitch.me/api/risklog',
+          url: 'https://trelloapp.hka-tech.com/api/risklog',
           data: params,
           responseType: 'arraybuffer'
         })

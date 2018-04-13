@@ -43,7 +43,7 @@
             for (var i = 0; i < service.settings.board.cards.length; i++) {
                 if (service.settings.board.cards[i]["name"] === cardName) {
                     var coverId = service.settings.board.cards[i].idAttachmentCover;
-                    var url = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2FHKA.png?1516074405379";
+                    var url = "https://trelloapp.hka-tech.com/HKA.png";
                     //if (coverId) {
                     //    for (var j = 0; j < service.settings.board.cards[i].attachments.length; j++) {
                     //        if (service.settings.board.cards[i].attachments[j].id = coverId) {
@@ -85,7 +85,7 @@
         console.dir(report);
         $http({
           method: "POST",
-          url: 'https://hka-trello.glitch.me/api/cardPrinter',
+          url: 'https://trelloapp.hka-tech.com/api/cardPrinter',
           data: report,
           responseType: 'arraybuffer'
         })

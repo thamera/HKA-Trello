@@ -11,7 +11,10 @@
 
     function teamService(trelloService, $q) {
       var service = {
-        model:{},
+        model:{
+          hka_reportingstart: new Date(),
+          hka_reportingfinish: new Date()
+        },
         init: init,
         getMonthsArray: getMonthsArray
       }
@@ -25,34 +28,62 @@
         
         t.organization('all')
         .then(function (orgData) {
-          console.dir(orgData);
-          trelloService.getData('organizations/' + orgData.id + "", {boards:"open",board_fields:"all",board_pluginData:"true"}, function (orgBoards) {
-            console.dir(orgBoards);
+          trelloService.getPluginId(context.board )
+          .then(function(pluginId){ 
+            service.model["hka_trello"] = pluginId;
+            //console.log(service.model["hka_trello"]);
+          
+            trelloService.getData('organizations/' + orgData.id + "", {boards:"open",board_fields:"all",board_pluginData:"true"}, function (orgBoards) {
+              var boards = orgBoards.boards
+              var promises = [];
+              var boardData = [];
+
+              while (boards.length > 0) {
+                var chunk = boards.splice(0,5);
+
+                var url = ""
+                for (var b = 0; b < chunk.length; b++){
+                  url += ",/boards/" + chunk[b].id + "?pluginData=true"
+                }
+                var promise = get10boards(url.substring(1));
+
+                promises.push(promise);
+              }
+
+              $q.all(promises)
+              .then(function(data){
+                service.model.timeValues = getMonthsArray(service.model.hka_reportingstart,service.model.hka_reportingfinish);
+
+                service.model.data = [];
+
+                for (var i = 0; i < data.length; i++) {
+                  angular.forEach(data[i], function(value,key){
+                    for (var j = 0; j < value["200"].pluginData.length; j++) {
+                      if ( value["200"].pluginData[j].idPlugin === service.model.hka_trello.id){
+                        var pluginData = JSON.parse(value["200"].pluginData[j].value);
+                        
+                        var memberData =  Object.keys(pluginData).filter(function(k){ return ~k.indexOf("hka_resource_") });
+          
+                        for (var m = 0; m < memberData.length; m++) {
+                          var resource = pluginData[memberData[m]];
+                          
+                          resource["boardId"] = value["200"].id;
+                          resource["boardName"] = value["200"].name;
+                          resource["shortUrl"] = value["200"].shortUrl;
+
+                          service.model.data.push(resource);
+                        }
+                        
+                      }
+                    }
+                  });
+                }
+
+                console.log("resolve init");
+                deferred.resolve();
+              });
+            });
           });
-        });
-        
-        t.getAll().then(function(allData) { console.dir(allData); });
-        
-        t.get('board','shared')
-        .then(function (boardData) {
-          //console.dir(boardData);
-          service.model = boardData;
-          
-          service.model.hka_targetstart = new Date(service.model.hka_targetstart );
-          service.model.hka_targetfinish = new Date(service.model.hka_targetfinish );
-          
-          service.model.timeValues = getMonthsArray(service.model.hka_targetstart,service.model.hka_targetfinish);
-          
-          service.model.data = [];
-          
-          var memberData =  Object.keys(service.model).filter(function(k){ return ~k.indexOf("hka_resource_") });
-          
-          for (var m = 0; m < memberData.length; m++) {
-            service.model.data.push(service.model[memberData[m]]);
-          }
-          
-          console.log("resolve init");
-          deferred.resolve();
         });
         
         return deferred.promise;
@@ -68,6 +99,17 @@
            dateStart.add(1,'month');
         }
         return timeValues
+      }
+      
+      function get10boards(url){
+        var defer = $q.defer();
+              
+        trelloService.getData('batch/',{urls:url},function (tenBoards) {
+          console.dir(tenBoards);
+          defer.resolve(tenBoards);
+        });
+        
+        return defer.promise;
       }
            
     }

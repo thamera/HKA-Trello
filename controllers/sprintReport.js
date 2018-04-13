@@ -165,7 +165,7 @@ exports.postReport = function(request, response) {
     };
   
   axios
-  .get('http://trelloapp.hka-tech.com/templates/SprintReportTemplate.docx', {
+  .get('https://trelloapp.hka-tech.com/templates/SprintReportTemplate.docx', {
     responseType: 'arraybuffer'
   })
   .then(res => {
@@ -209,7 +209,7 @@ exports.postReport = function(request, response) {
   
   requestTemplate({
     method: "GET",
-    url:'http://trelloapp.hka-tech.com/templates/SprintReportTemplate.docx',
+    url:'https://trelloapp.hka-tech.com/templates/SprintReportTemplate.docx',
     encoding: null
   }, function(error,res,body) {
     if(error ||  res.statusCode !== 200) {

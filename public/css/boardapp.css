@@ -4,7 +4,7 @@ body {
     background: -moz-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
     background: -webkit-linear-gradient(bottom, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
     background: linear-gradient(to top, rgba(217,217,217,1), rgba(255,255,255,1) 100px);
-    background-image: url("http://trelloapp.hka-tech.com/images/hka-background.jpg");
+    background-image: url("https://trelloapp.hka-tech.com/images/hka-background.jpg");
     background-position-y: top;
     background-repeat: no-repeat;
     background-size: contain;

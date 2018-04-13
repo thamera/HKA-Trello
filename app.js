@@ -14,15 +14,23 @@ var app = express();
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
-app.use(cors({origins:'*'}));
+app.use(cors({origin:'*'}));
 
 
 // http://expressjs.com/en/starter/static-files.html
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'/public')));
 
 app.use('/api',api);
 app.use('/auth',auth);
 //app.use('/',routes);
+
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+      message: err.message,
+      error: {}
+  });
+});
 
 // http://expressjs.com/en/starter/basic-routing.html
 //app.get("/", function (request, response) {
@@ -47,6 +55,13 @@ app.use('/auth',auth);
 //];
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+//var listener = app.listen(process.env.PORT, function () {
+//  console.log('Your app is listening on port ' + listener.address().port);
+//});
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function () {
+  console.log('Express server listening on port ' + server.address().port);
+  //debug('Express server listening on port ' + server.address().port);
 });

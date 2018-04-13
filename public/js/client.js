@@ -2,17 +2,16 @@
 
 var Promise = TrelloPowerUp.Promise;
 
-var ICON_HKA = 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2FHKA-Caret.jpg?1516074405408';
-var ICON_FD = 'https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Ffd.png?1516074405366';
-var BLACK_ROCKET_ICON = 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421';
-var CALENDAR_WARNING_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-warning.svg?1504481230707';
-var CALENDAR_STAR_ICON = 'https://cdn.glitch.com/9b7e2234-5f27-4a29-ad86-70aa1d3db4d3%2Fcalendar-star.svg?1504481230561';
-var MILESTONE_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_11.png?1516838702748";
-var RISK_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_49.png?1516838690494";
-var CHECK2CARD_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F005.png?1516838750019";
-var SECURITY_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_25.png?1520310634792";
-var PRINTER_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2F008.png?1516838754246";
-var RESOURCE_ICON = "https://cdn.glitch.com/02f96b35-f91f-4d0e-b671-c0882533598f%2Fonebit_17.png?1522864281848";
+var ICON_HKA = 'https://trelloapp.hka-tech.com/images/HKA-Caret.jpg';
+var ICON_FD = 'https://trelloapp.hka-tech.com/images/fd.png';
+var CALENDAR_WARNING_ICON = 'https://trelloapp.hka-tech.com/images/calendar-warning.svg';
+var CALENDAR_STAR_ICON = 'https://trelloapp.hka-tech.com/images/calendar-star.svg';
+var MILESTONE_ICON = "https://trelloapp.hka-tech.com/images/calendar.png";
+var RISK_ICON = "https://trelloapp.hka-tech.com/images/exclm.png";
+var CHECK2CARD_ICON = "https://trelloapp.hka-tech.com/images/CHECKLIST.png";
+var SECURITY_ICON = "https://trelloapp.hka-tech.com/images/SHIELD_CHECK.png";
+var PRINTER_ICON = "https://trelloapp.hka-tech.com/images/print.png";
+var RESOURCE_ICON = "https://trelloapp.hka-tech.com/images/contacts.png";
 
 var token;
 

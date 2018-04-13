@@ -15,6 +15,7 @@
       // 3rd Party Modules
       'ui.bootstrap',
       'ui.grid',
+      'ui.grid.grouping',
       'ui.grid.selection',
       'ui.grid.edit',
       'ui.grid.pinning',

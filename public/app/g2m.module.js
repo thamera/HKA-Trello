@@ -38,7 +38,7 @@
     function activate() {
       //$http({
       //    method: "GET",
-      //    url: 'https://hka-trello.glitch.me/auth/g2m',
+      //    url: 'https://trelloapp.hka-tech.com/auth/g2m',
       //    //data: params,
       //    //responseType: 'arraybuffer'
       //  })
@@ -48,7 +48,7 @@
       
       //t.authorize('https://api.getgo.com/oauth/v2/authorize?client_id={consumerKey}&response_type=code',{ height: 680, width: 580 });
       
-      t.authorize('https://hka-trello.glitch.me/auth/g2mcode', { height: 680, width: 580})
+      t.authorize('https://trelloapp.hka-tech.com/auth/g2mcode', { height: 680, width: 580})
       .then(function(token){ //, validToken: tokenLooksValid , windowCallback: authorized
         console.log(token);
       });

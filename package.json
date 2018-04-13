@@ -8,7 +8,7 @@
   },
   "keywords": [
     "node",
-    "glitch",
+    "HKA-Tech",
     "express"
   ],
   "author": "Travis Hamera, HKA-Tech",
@@ -24,7 +24,8 @@
     "angular-expressions": "^0.3.0",
     "oauth": "^0.9.15",
     "client-oauth2": "^4.1.0",
-    "grep-from-array": "^0.9.0"
+    "grep-from-array": "^0.9.0",
+    "moment": "^2.22.0"
   },
   "engines": {
     "node": "8.x"
