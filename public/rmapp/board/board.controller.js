@@ -129,6 +129,7 @@
       }
       
       function resetColumns () {
+        console.log("board.controller>resetColumns");
         if (vm.model.timeValues) {
           for (var c = 0; c < vm.model.timeValues.length; c++) {
             vm.grid.columns.push({ name: vm.model.timeValues[c]

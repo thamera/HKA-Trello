@@ -12,12 +12,12 @@
     <div class="container-fluid">
       <form class="form-horizontal" id="freshdesk_create">
         <div class="form-group">
-          <div class="col-xs-6">
-            <label for="ticketReqester">Requested By (Email Address)</label>
-            <input type="email" class="form-control" id="ticketReqester">
+          <div class="col-xs-6 form_field">
+            <label class="control-label" for="ticketReqester">Requested By (Email Address)</label>
+            <input type="email" class="form-control" id="ticketReqester" name="ticketReqester">
           </div>
-          <div class="col-xs-3">
-            <label for="ticketPriority">Priority</label>
+          <div class="col-xs-6 form_field">
+            <label class="control-label" for="ticketPriority">Priority</label>
             <select id="ticketPriority" class="form-control">
               <option value="1">Low</option>
               <option value="2">Medium</option>
@@ -26,42 +26,42 @@
             </select>
           </div>
         </div>
-        <div class="form-group" id="ticketProject-group">
-          <div class="col-xs-12">
-            <label for="ticketProject">Project (required)</label>
-            <select id="ticketProject" class="form-control">
+        <div class="form-group col-xs-12 form_field" id="ticketProject-group">
+          
+            <label class="control-label" for="ticketProject">Project (required)</label>
+            <select id="ticketProject" name="ticketProject" class="form-control">
             </select>
-          </div>
+          
         </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <label for="ticketCC">Email Addresses to CC (comma separated)</label>
+        <div class="form-group col-xs-12 form_field">
+          
+            <label class="control-label" for="ticketCC">Email Addresses to CC (comma separated)</label>
             <textarea id="ticketCC" class="form-control" rows="2"></textarea>
-          </div>
+          
         </div>
-        <div class="form-group">
-          <div class="col-xs-9">
-            <label for="ticketSubject">Subject</label>
-            <input type="text" class="form-control" id="ticketSubject">
-          </div>
+        <div class="form-group col-xs-12 form_field">
+          
+            <label class="control-label" for="ticketSubject">Subject</label>
+            <input type="text" class="form-control" id="ticketSubject" name="ticketSubject">
+          
         </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <label for="ticketDescription">Description</label>
-            <div id="ticketDescription" class="form-control"></div>
-          </div>
+        <div class="form-group col-xs-12 form_field">
+          
+            <label class="control-label" for="ticketDescription">Description</label>
+            <div id="ticketDescription" name="ticketDescription" class="form-control"></div>
+          
         </div>
-        <div class="form-group">
-          <div class="col-xs-12 files" id="ticketFileContainer">
-            <label for="ticketFiles">Attachments</label>
+        <div class="form-group col-xs-12 files form_field" id="ticketFileContainer">
+          
+            <label class="control-label" for="ticketFiles">Attachments</label>
             <span id="ticketFiles" class="btn btn-default btn-file">
               Browse <input type="file" name="ticketFiles" multiple />
             </span>
             <br />
             <ul class="fileList"></ul>
-          </div>
+          
         </div>
-        <div class="form-group">
+        <div class="form-group col-xs-12">
           <div class="col-sm-offset-2 col-sm-10">
             <button id="submitBtn" type="submit" class="btn btn-default mod-primary"><i class="fa fa-spinner fa-spin hide"></i><span>Send</span></button>
           </div>
@@ -73,6 +73,7 @@
     <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
     <script src="./freshdesk.service.js"></script>
     <script src="./freshdeskcreate.js"></script>
   </body>

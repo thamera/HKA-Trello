@@ -9,74 +9,94 @@
 <body>
   <div id="content" class="container-fluid">
     <form class="form-horizontal" id="hka-settings">
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_dateformat">
-             Date Format
-          </label>
-          <select id="hka_dateformat">
-              <option value="short">US Short (9/3/10 12:05 PM)</option>
-              <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
-              <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
-              <option value="longDate">US Long Date (September 3, 2010)</option>
-              <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
-              <option value="shortDate">US Short Date (9/3/10)</option>
-              <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
-              <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
-              <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
-              <option value="d MMM y">Std Long Date (3 September 2010)</option>
-              <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
-              <option value="d/M/yy">Std Short Date (3/9/10)</option>
-          </select>
-          <p class="help-block">Select the standard date format for reporting</p>
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">General Settings</div>
+          <div class="panel-body">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="hka_dateformat">
+                   Date Format
+                </label>
+                <select id="hka_dateformat">
+                    <option value="short">US Short (9/3/10 12:05 PM)</option>
+                    <option value="medium">US Medium (Sep 3, 2010 12:05:08 PM)</option>
+                    <option value="fullDate">US Full Date (Friday, September 3, 2010)</option>
+                    <option value="longDate">US Long Date (September 3, 2010)</option>
+                    <option value="mediumDate">US Medium Date (Sep 3, 2010)</option>
+                    <option value="shortDate">US Short Date (9/3/10)</option>
+                    <option value="d/M/yy h:mm a">Std Short (3/9/10 12:05 PM)</option>
+                    <option value="d MMM y h:mm:ss a">Std Medium (3 Sep 2010 12:05:08 PM)</option>
+                    <option value="EEE, d MMM y">Std Full Date (Friday, 3 September 2010)</option>
+                    <option value="d MMM y">Std Long Date (3 September 2010)</option>
+                    <option value="d MMM y">Std Medium Date (3 Sep 2010)</option>
+                    <option value="d/M/yy">Std Short Date (3/9/10)</option>
+                </select>
+                <p class="help-block">Select the standard date format for reporting</p>
+              </div>
+              <div class="form-group">
+                <label for="hka_securitygroups">Security Groups</label>
+                <input type="text" id="hka_securitygroups" />
+                <p class="help-block">(if multiple, separate with commas - no extra spaces)</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_milestonelist">Milestone Schedule List</label>
-          <select id="hka_milestonelist"></select>
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">List Settings</div>
+          <div class="panel-body">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="hka_milestonelist">Milestone Schedule List</label>
+                <select id="hka_milestonelist"></select>
+              </div>
+              <div class="form-group">
+                <label for="hka_risklist">Risk Management List</label>
+                <select id="hka_risklist"></select>
+              </div>
+              <div class="form-group">
+                <label for="hka_completedListTag">Completed Lists Tag</label>
+                <input type="text" id="hka_completedListTag"/>
+                <p class="help-block">Enter a tag/term that will be included within the name of all lists designated to store completed cards.</p>
+              </div>
+            </div>
+          </div>  
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_risklist">Risk Management List</label>
-          <select id="hka_risklist"></select>
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">Freshdesk Integration</div>
+          <div class="panel-body">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="hka_freshdeskurl">Freshdesk API URL</label>
+                <input type="url" id="hka_freshdeskurl" />
+                <p class="help-block">(e.g. https://hka-tech.freshdesk.com/api)</p>
+              </div>
+              <div class="form-group">
+                <label>Freshdesk: Custom Fields</label>
+                <p class="help-block">Select fields to be included in Freshdesk Tickets</p>
+                <label>
+                  <input type="checkbox" value="" id="hka_freshdesk_billingcode" checked />
+                  Billing Code (identified by Project Numbers)
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="hka_projectnumbers">Project Number(s)</label>
+                <input type="text" id="hka_projectnumbers" />
+                <p class="help-block">(if multiple, separate with commas)</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_freshdeskurl">Freshdesk API URL</label>
-          <input type="url" id="hka_freshdeskurl" />
-          <p class="help-block">(e.g. https://hka-tech.freshdesk.com/api)</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label>Freshdesk: Custom Fields</label>
-          <p class="help-block">Select fields to be included in Freshdesk Tickets</p>
-          <label>
-            <input type="checkbox" value="" id="hka_freshdesk_billingcode" checked />
-            Billing Code (identified by Project Numbers)
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_projectnumbers">Project Number(s)</label>
-          <input type="text" id="hka_projectnumbers" />
-          <p class="help-block">(if multiple, separate with commas)</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label for="hka_securitygroups">Security Groups</label>
-          <input type="text" id="hka_securitygroups" />
-          <p class="help-block">(if multiple, separate with commas - no extra spaces)</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button id="save" class="mod-primary">Save</button>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button id="save" class="mod-primary">Save</button>
+          </div>
         </div>
       </div>
     </form>

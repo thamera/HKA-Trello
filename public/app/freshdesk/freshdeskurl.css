@@ -3,9 +3,9 @@
   margin-bottom: 0px;
 }
 
-#freshdesk_create .note-editor {
+/*#freshdesk_create .note-editor {
   max-width: 500px;
-}
+}*/
 
 #apiKey_success, #apiKey_success {
  font-size: 12px;
@@ -40,4 +40,8 @@
 
 .freshdesk_ticket_conv_head strong{
   font-size: 1.5em
+}
+
+#freshdesk_create input,#freshdesk_create textarea,#freshdesk_create select {
+  max-width: none;
 }
