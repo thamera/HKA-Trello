@@ -23,13 +23,11 @@
         console.log("board.service>init");
         var deferred = $q.defer();
         
+        console.log("get board plugin data...");
         t.get('board','shared')
         .then(function (boardData) {
-          //console.dir(boardData);
+          console.log("process board plugin data...");
           service.model = boardData;
-          
-          //console.log(service.model.hka_targetstart );
-          //console.log(service.model.hka_targetfinish );
           
           service.model.hka_targetstart = new Date(service.model.hka_targetstart );
           service.model.hka_targetfinish = new Date(service.model.hka_targetfinish );
@@ -38,6 +36,7 @@
           
           service.model.data = [];
           
+          console.log("get resources...");
           var memberData =  Object.keys(service.model).filter(function(k){ return ~k.indexOf("hka_resource_") });
           
           for (var m = 0; m < memberData.length; m++) {
@@ -52,6 +51,8 @@
       }
       
       function getMonthsArray(start,end){
+        console.log("board.service>init");
+        console.log(start,end);
         var timeValues = [];
         
         if(!isNaN(start.getTime()) && !isNaN(end.getTime())) {
@@ -62,7 +63,11 @@
             dateStart.add(1,'month');
           }
         }
-        return timeValues;
+        //var dateStart = moment(start);
+        //var dateEnd = moment(end);
+        //var timeValues = [];
+
+        return timeValues
       }
            
     }

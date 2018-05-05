@@ -55,6 +55,65 @@ t.render(function () {
             ['misc',['codeview','undo','redo','help']]
           ]});
           $('#ticketDescription').summernote('code', body);
+
+          $("#freshdesk_create").validate(
+            {
+              rules: {
+                ticketReqester: "required",
+                ticketSubject:{
+                  required: true,
+                  maxlength: 255
+                },
+                ticketDescription: "required"
+              },
+              messages: {
+                ticketReqester: "Please provide a valid requester",
+                ticketSubject:{
+                  required: "Please provide a subject",
+                  maxlength: "Subject cannot exceed 255 characters"
+                },
+                ticketDescription: "Please provide a description for the ticket"
+              },
+              submitHandler: function () {
+                //alert( "submitted!" );
+                submitRequest();
+              },
+              errorElement: "em",
+              errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+        
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                element.parents( ".form_field" ).addClass( "has-feedback" );
+        
+                if ( element.prop( "type" ) === "checkbox" ) {
+                  error.insertAfter( element.parent( "label" ) );
+                } else {
+                  error.insertAfter( element );
+                }
+        
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !element.next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+                }
+              },
+              success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+                }
+              },
+              highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".form_field" ).addClass( "has-error" ).removeClass( "has-success" );
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+              },
+              unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".form_field" ).addClass( "has-success" ).removeClass( "has-error" );
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+              }
+            }
+          );
         });
 
         return t.sizeTo('#freshdesk_create');
@@ -64,9 +123,10 @@ t.render(function () {
   //});
 });
 
-window.freshdesk_create.addEventListener('submit', function(event){
-  event.preventDefault();
+//window.freshdesk_create.addEventListener('submit', function(event){
+//  event.preventDefault();
   
+function submitRequest(){
   $('#submitBtn i').removeClass('hide');
   $('#submitBtn span').html('&nbsp;Loading...');
   $('#submitBtn').attr("disabled",true);
@@ -136,7 +196,8 @@ window.freshdesk_create.addEventListener('submit', function(event){
     alert("Unknown error generating freshdesk ticket.");
   });
 
-});
+}
+//});
 
 var getFile = function ( thisFile) {
   return new Promise((resolve,reject) => {

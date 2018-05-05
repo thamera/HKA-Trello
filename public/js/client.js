@@ -438,7 +438,7 @@ var cardBadgesSetup = function(t, options){
       if (cardData[property].isSecurityReq) {
         hasSecurityReqs = true;
         securityReqsCount++;
-        if (cardData[property].complete == false) { completedSecurityReqs++; }
+        if (cardData[property].complete == true) { completedSecurityReqs++; }
       }
     }
     if (hasSecurityReqs){
@@ -454,6 +454,54 @@ var cardBadgesSetup = function(t, options){
   
 
   return promise;
+}
+
+function getListSorters(list) {
+  var sorters = [{
+    text: "Card Name",
+    callback: function (t, opts) {
+      var sortedCards = opts.cards.sort(
+        function(a,b) {
+          if (a.name > b.name) {
+            return 1;
+          } else if (b.name > a.name) {
+            return -1;
+          }
+          return 0;
+        }
+      );
+
+      return { 
+        sortedIds: sortedCards.map(function (c) { return c.id; })
+      }
+    }
+  },
+  {
+    text: "First Label",
+    callback: function (t, opts) {
+      var sortedCards = opts.cards.sort(
+        function(a,b) {
+          var labela = ""
+          if (a.labels[0]) {labela = a.labels[0].name}
+          var labelb = "" 
+          if (b.labels[0]) {labelb = b.labels[0].name}
+
+          if (labela > labelb) {
+            return 1;
+          } else if (labelb > labela) {
+            return -1;
+          }
+          return 0;
+        }
+      );
+
+      return { 
+        sortedIds: sortedCards.map(function (c) { return c.id; })
+      }
+    }
+  }];
+
+  return sorters;
 }
 
 function getScoreColor(score) {
@@ -572,7 +620,10 @@ TrelloPowerUp.initialize({
     var c = t.getContext();
     
     var buttons = [{
-      icon: ICON_HKA ,
+      icon: {
+        dark: ICON_HKA ,
+        light: ICON_HKA
+      },
       text: 'HKA Trello App',
       callback: boardButtonCallback
     /*},{
@@ -583,9 +634,13 @@ TrelloPowerUp.initialize({
     
     if (c.permissions.organization) {
       buttons.push({
-        icon: RESOURCE_ICON ,
+        icon: {
+          dark: RESOURCE_ICON ,
+          light: RESOURCE_ICON
+        },
         text: 'Resource Mgmt',
-        callback: resourcingBoardButtonCallback
+        callback: resourcingBoardButtonCallback,
+        condition: 'admin'
       });
     }
     
@@ -645,9 +700,10 @@ TrelloPowerUp.initialize({
     return detailBadges;
   },
   'show-settings': function(t, options){
-    return t.popup({
+    return t.modal({
       title: 'HKA-Trello Settings',
       url: './settings.html',
+      accentColor: '#3A96A3',
       height: 184
     })
   },
@@ -666,6 +722,12 @@ TrelloPowerUp.initialize({
     } else {
       console.log("🙈 Looks like you need to add your API key to the project!");
     }
+    });
+  },
+  'list-sorters': function (t) {
+    return t.list('name','id')
+    .then(function (list) {
+      return getListSorters(list);
     });
   }
 });

@@ -9,3 +9,7 @@ input[type="url"] {
     width: 100%;
     max-width: 500px;
 }
+
+#hka-settings input,#hka-settings textarea,#hka-settings select {
+  max-width: none;
+}

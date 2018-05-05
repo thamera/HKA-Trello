@@ -43,7 +43,7 @@
             for (var i = 0; i < service.settings.board.cards.length; i++) {
                 if (service.settings.board.cards[i]["name"] === cardName) {
                     var coverId = service.settings.board.cards[i].idAttachmentCover;
-                    var url = "https://trelloapp.hka-tech.com/HKA.png";
+                    var url = "https://trelloapp.hka-tech.com/images/HKA.png";
                     //if (coverId) {
                     //    for (var j = 0; j < service.settings.board.cards[i].attachments.length; j++) {
                     //        if (service.settings.board.cards[i].attachments[j].id = coverId) {
