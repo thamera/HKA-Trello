@@ -3,9 +3,11 @@
 (function () {
     'use strict';
 
-    angular
-        .module('app')
-        .controller('checklistCtrlAs', checklistCtrlAs);
+  angular
+    .module('app')
+    .controller('checklistCtrlAs', checklistCtrlAs)
+    .directive('uiSelectWrap', uiSelectWrap)
+    .filter('mapName', mapName)
 
     checklistCtrlAs.$inject = ['$scope', '$q', 'checklistService'];
 
@@ -20,8 +22,26 @@
             card: {}
         },
         numberSelected: 0,
-        
       };
+      
+      
+      vm.grid = {
+        columns: [
+          { name: 'name', enableCellEdit: false },
+          { name: 'checklist', grouping: { groupPriority: 0 }, enableCellEdit: false },
+          { name: 'TargetList', displayName: 'Target List', cellFilter: 'mapName',
+           editableCellTemplate: 'uiSelect', editDropdownValueLabel: 'name',
+           editDropdownOptionsArray: []
+          },
+          { name: 'Labels', cellFilter: 'mapName', editableCellTemplate: 'uiSelectMulti',
+            editDropdownValueLabel: 'name', editDropdownOptionsArray: []
+          },
+          { name: 'Members', cellFilter: 'mapName', editableCellTemplate: 'uiSelectMembers',
+            editDropdownValueLabel: 'fullName', editDropdownOptionsArray: []
+          },
+          { name: 'due', displayName: 'Due Date', type: 'date',cellFilter:'date:"yyyy-MM-dd"' }
+        ]
+      }
       vm.promiseIndex = '';
       vm.promiseMsg = 'Proceed';
       
@@ -32,12 +52,10 @@
             enableSelectAll: true,
             selectionRowHeaderWidth: 35,
             multiSelect: true,
+            //enableCellEditOnFocus: true,
             showGridFooter: true,
             rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'ui-grid-disabled\': row.entity.isExported  }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell></div>',
-            columnDefs: [
-                { name: 'name' },
-                { name: 'checklist', grouping: { groupPriority: 0 } }
-            ],
+            columnDefs: vm.grid.columns,
             isRowSelectable: function (row) {
                 var name = "";
                 name += row.entity.name;
@@ -63,7 +81,12 @@
           vm.model = checklistService.model;
           
           formatChecklists();
-
+          
+          console.dir(vm.model.board);
+          vm.checklistGridOptions.columnDefs[2].editDropdownOptionsArray = vm.model.board.lists;
+          vm.checklistGridOptions.columnDefs[3].editDropdownOptionsArray = vm.model.board.labels;
+          vm.checklistGridOptions.columnDefs[4].editDropdownOptionsArray = vm.model.board.members;
+          
           vm.model.ready = true;
           
           // Uncomment next too lines to view data model
@@ -110,15 +133,21 @@
       function getSelected() {
         var selection = vm.myGridApi.selection.getSelectedRows();
         
-        // Make sure everything is ready
+        /*  // Make sure everything is ready
         if (!vm.model.selection.tolist || vm.model.selection.tolist == "") {
             alert("A list had not been identified to send new checlist cards to.  Please select a list and try again.");
             return;
-        }
+        } */
+        for (var j = 0; j < selection.length; j++) {
+           if(!selection[j].TargetList || !selection[j].TargetList.id ) {
+             alert("All selected items must have a target list defined to continue.  Either deselect items without target lists or select the appropriate list for each checklist being converted.");
+             return;
+           };
+        };
         if (selection.length == 0) {
             alert("please select the checklist items to be converted to cards.  Selected items will have a check mark to the left.");
             return;
-        }
+        };
         
         vm.promiseIndex = selection.length;
         vm.promiseMsg = 'Processing... ';
@@ -129,21 +158,23 @@
           vm.model.ready = false;
           var list = $.grep(vm.model.board.lists, function (list) { return list.id == vm.model.selectedCard.idList })[0];
           var newCard = {
-            name: selection[i].name,
-            desc: "",
-            idList: vm.model.selection.tolist,
-            labels: vm.model.selectedCard.idLabels.join(),
+            //name: selection[i].name,
+            //desc: "",
+            //idList: vm.model.selection.tolist,
+            //labels: vm.model.selectedCard.idLabels.join(),
             fromCardId: vm.model.selectedCard.id,
             fromCard: vm.model.selectedCard.name,
             fromChecklistId: selection[i].id,
             fromChecklist: selection[i].name,
             fromURL: vm.model.selectedCard.url,
             shortLink: vm.model.selectedCard.shortLink,
-            fromChecklistCollection: selection[i].checklistId
-          }
-          console.dir(newCard);
+            fromChecklistCollection: selection[i].checklistId,
+            cardData: selection[i]
+          };
+          //console.dir(newCard);
           (function(index,newCard1) {
             cardChain = cardChain.then(function() {
+              //console.log("Attempt " + index);
               return checklistService.createCard(newCard1,index,selection.length)
                 .then(function(newCardId){
                   console.log('checklist.service>creating plugin properties for new card...');
@@ -153,12 +184,6 @@
               });
             });
           })(i,newCard);
-          //checklistService.createCard(newCard,i,selection.length)
-          //.then(function(isLast){
-          //  if(isLast) {
-          //   finishChecklistCreation(selection.length); 
-          //  }
-          //});
         }
         cardChain.then(function(){
           finishChecklistCreation(selection.length); 
@@ -175,4 +200,31 @@
         }
 
     }
+  
+  uiSelectWrap.$inject = ['$document', 'uiGridEditConstants'];
+  function uiSelectWrap($document, uiGridEditConstants) {
+    return function link($scope, $elm, $attr) {
+      $document.on('click', docClick);
+
+      function docClick(evt) {
+        if ($(evt.target).closest('.ui-select-container').size() === 0) {
+          $scope.$emit(uiGridEditConstants.events.END_CELL_EDIT);
+          $document.off('click', docClick);
+        }
+      }
+    };
+  }
+  
+  function mapName() {
+    return function(input) {
+      //console.dir(input);
+      if(input == undefined) {return ""; }
+      if(Array.isArray(input)) {
+        if (input.length == 0) {return "";}
+        if(input[0].fullName) { return input.map(e => e.fullName).join(","); }
+        return input.map(e => e.name).join(",");
+      }
+      return input.name ;
+    }
+  }
 })();

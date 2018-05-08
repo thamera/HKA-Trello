@@ -26,6 +26,10 @@
             url: '#/riskmgmt',
           icon: 'https://trelloapp.hka-tech.com/images/exclm.png'
         }, {
+            title: 'Scheduling',
+            url: '#/gantt',
+          icon: 'https://trelloapp.hka-tech.com/images/gantt.png'
+        }, {
             title: 'Security Log',
             url: '#/securitylog',
           icon: 'https://trelloapp.hka-tech.com/images/SHIELD_CHECK.png'

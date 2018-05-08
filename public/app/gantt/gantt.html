@@ -1,0 +1,38 @@
+<div ng-controller="ganttCtrlAs as gantt">
+  <h3 class="text-center">{{gantt.title}}</h3>
+  <div class="row spacer">
+    <div google-chart chart="gantt.myChartObject"></div>
+  </div>
+  <div class="row spacer">
+    <div class="col-xs-12">
+      <div gantt data="gantt.data" api="gantt.registerGanttApi" headers="['month','week']" current-date="column" max-height="600" current-date-value="gantt.getToday">
+        <gantt-corner headers-labels-templates="gantt.headerTemplate"></gantt-corner>
+        <gantt-tree header-content="gantt.treeHeaderContent" keep-ancestor-on-filter-row="true"></gantt-tree>
+        <gantt-table columns="gantt.columns" headers="gantt.columnHeadings" formatters="gantt.columnsFormatters" header-contents="gantt.columnsHeaderContents"></gantt-table>
+        <gantt-tooltips content="gantt.tooltips"></gantt-tooltips>
+        <gantt-bounds></gantt-bounds>
+        <gantt-progress></gantt-progress>
+        <gantt-overlap></gantt-overlap>
+        <!--<gantt-dependencies></gantt-dependencies>-->
+      </div>
+    </div>
+  </div>
+  <div class="row spacer">
+    <div class="col-xs-12">
+        <button type="button" ng-click="gantt.test" class="btn btn-primary">
+            test
+        </button>
+      </div>
+  </div>
+  <style>
+    .gantt-side {
+      min-width:300px; 
+    }
+    .gantt-foreground-col {
+      border-right: none;
+    }
+    /*.gantt-task-progress {
+      background-color: #407bff;
+    }*/
+  </style>
+</div>

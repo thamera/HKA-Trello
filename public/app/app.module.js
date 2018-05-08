@@ -20,7 +20,17 @@
           'oc.lazyLoad',
           'dndLists',
           'ng-showdown',
-          'asideModule'
+          'asideModule',
+          'googlechart',
+          'gantt',
+          'gantt.corner',
+          'gantt.table',
+          'gantt.tree',
+          'gantt.tooltips',
+          'gantt.bounds',
+          'gantt.progress',
+          'gantt.groups',
+          'gantt.dependencies'
           //'btford.markdown'
         ])
         .config(routeConfig)
@@ -31,13 +41,14 @@
 
     function routeConfig($routeProvider) {
         $routeProvider
-            .when('/', { templateUrl: 'app/home/home.html' })
-            .when('/trellosettings', { templateUrl: 'app/trellosettings/trellosettings.html' })
-            .when('/checklisttocard/:cardId', { templateUrl: 'app/checklists/checklists.html' })
-            .when('/riskmgmt', { templateUrl: 'app/riskmgmt/riskmgmt.html' })
-            .when('/sprintreport', { templateUrl: 'app/sprintreport/sprintreport.html' })
-            .when('/releasereport', { templateUrl: 'app/releasereport/releasereport.html' })
-            .when('/cardprinter', { templateUrl: 'app/cardprinter/cardprinter.html' })
+          .when('/', { templateUrl: 'app/home/home.html' })
+          .when('/trellosettings', { templateUrl: 'app/trellosettings/trellosettings.html' })
+          .when('/checklisttocard/:cardId', { templateUrl: 'app/checklists/checklists.html' })
+          .when('/riskmgmt', { templateUrl: 'app/riskmgmt/riskmgmt.html' })
+          .when('/gantt', { templateUrl: 'app/gantt/gantt.html' })
+          .when('/sprintreport', { templateUrl: 'app/sprintreport/sprintreport.html' })
+          .when('/releasereport', { templateUrl: 'app/releasereport/releasereport.html' })
+          .when('/cardprinter', { templateUrl: 'app/cardprinter/cardprinter.html' })
           .when('/securitylog', { templateUrl: 'app/securityreq/securitylog.html' })
           .when('/mysettings', { templateUrl: 'app/mysettings/mysettings.html' })  
           .otherwise({ redirectTo: '/' });
