@@ -59,7 +59,7 @@ var resourcingBoardButtonCallback = function(t){
         fullscreen:true,
         accentColor: '#3A96A3'
       });
-    } else if (c.permissions.organization && c.member == "539f69bdff79fbf484dbd79d") {
+    } else if (c.permissions.organization) {
         return t.modal({
               url: './resourceapp.html', // The URL to load for the iframe
               args: { apiKey: TRELLOKEY, apiToken: myToken }, // Optional args to access later with t.arg('text') on './modal.html'
@@ -632,7 +632,7 @@ TrelloPowerUp.initialize({
       callback: g2mBoardButtonCallback*/
     }];
     
-    if (c.permissions.organization) {
+    //if (c.permissions.organization) {
       buttons.push({
         icon: {
           dark: RESOURCE_ICON ,
@@ -642,7 +642,7 @@ TrelloPowerUp.initialize({
         callback: resourcingBoardButtonCallback,
         condition: 'admin'
       });
-    }
+    //}
     
 	  return buttons;
   },
