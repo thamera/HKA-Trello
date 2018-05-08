@@ -1,27 +1,27 @@
 /* global angular */
 
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('app', [
-      // Angular modules    
-      //'ngRoute',
-      'ngSanitize',
+    angular
+        .module('app', [
+            // Angular modules    
+            //'ngRoute',
+            'ngSanitize',
+          
+            // Custom modules
 
-      // Custom modules
-
-      // 3rd Party Modules
-      'ui.grid',
-      'ui.grid.grouping',
-      'ui.grid.selection',
-      'ui.grid.edit',
-      //'ui.grid.cellNav',
-      'ui.select'
-    ])
-      //.config(routeConfig)
-      .config(compileProvider);
-
+            // 3rd Party Modules
+            'ui.grid',
+            'ui.grid.grouping',
+            'ui.grid.selection',
+            'ui.grid.edit',
+            //'ui.grid.cellNav',
+            'ui.select'
+        ])
+        //.config(routeConfig)
+        .config(compileProvider);
+  
   //routeConfig.$inject = ['$routeProvider'];   
   compileProvider.$inject = ['$compileProvider'];
   

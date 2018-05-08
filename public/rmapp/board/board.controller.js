@@ -5,11 +5,15 @@
 
     angular
         .module('app')
-        .controller('boardCtrlAs', boardCtrlAs);
+        .controller('boardCtrlAs', boardCtrlAs)
+        .directive('liveValidation',liveValidation)
+        .directive('liveValidator',liveValidator);
 
-    boardCtrlAs.$inject = ['$scope','boardService','uiGridConstants'];
+    boardCtrlAs.$inject = ['$scope','boardService','uiGridConstants','uiGridValidateService','$window'];
+    liveValidation.$inject = ['$compile', '$templateCache'];
+    liveValidator.$inject = ['uiGridValidateService'];
 
-    function boardCtrlAs($scope,boardService,uiGridConstants) {
+    function boardCtrlAs($scope,boardService,uiGridConstants,uiGridValidateService,$window) {
       /* jshint validthis:true */
       var vm = this;
       vm.title = 'Board Resources';
@@ -36,6 +40,7 @@
         //enableSelectAll: true,
         selectionRowHeaderWidth: 35,
         //multiSelect: true,
+        enableCellEditOnFocus: true,
         showGridFooter: true,
         rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'ui-grid-disabled\': row.entity.isExported  }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell></div>',
         columnDefs: vm.grid.columns,
@@ -50,7 +55,7 @@
         boardService.init()
         .then(function (data) {
           vm.model = boardService.model;
-           
+          //console.dir(vm.model);
           resetColumns();
           
           vm.GridOptions.data = vm.model.data;
@@ -61,6 +66,13 @@
         vm.myGridApi = gridApi;
         //vm.myGridApi.selection.on.rowSelectionChanged($scope, vm.selectionChanged);
         vm.myGridApi.edit.on.afterCellEdit($scope, rowEdited);
+        vm.myGridApi.validate.on.validationFailed($scope,function(rowEntity, colDef, newValue, oldValue){
+          //console.dir(colDef);
+          $window.alert('Resource: '+ rowEntity.member + '\n' +
+            'Column: ' + colDef.name + '\n' +
+            'New Value: ' + newValue + '\n' +
+            'Old Value: ' + oldValue);
+        });
       }
       
       function selectionChanged(rowChanged) {
@@ -68,6 +80,7 @@
       }
       
       function rowEdited(rowEntity, colDef, newValue, oldValue) {       
+        if(colDef.validators.WeeklyHours && (newValue < 0 || newValue > 40 )) return;
         if (rowEntity.member != "") {
           if (colDef.field == "member") {
             //remove and add
@@ -135,11 +148,107 @@
             vm.grid.columns.push({ name: vm.model.timeValues[c]
                                   ,field: vm.model.timeValues[c]
                                   ,type: 'number',
-                                  width: '90'
+                                  width: '90',
+                                  validators: {'WeeklyHours': true}
+                                  , cellTemplate: 'ui-grid/cellTitleValidator'
                                  } );
           }
         }
       }
+
+      uiGridValidateService.setValidator('WeeklyHours',
+        function(argument) {
+          return function(oldValue, newValue, rowEntity, colDef) {
+            if (!newValue) {
+              return true; // We should not test for existence here
+            } else {
+              if (newValue >= 0 && newValue <= 40) return true;
+            }
+          };
+        },
+        function(argument) {
+          return 'The value must be bewteen 0 and 40.  Each cell is entered as an estimate of hours for a typical week within the target month.';
+        }
+      );
       
     }
+
+    function liveValidation($compile, $templateCache){
+      return {
+        restrict: 'A',
+        priority: -200,
+        controllerAs: 'liveValidationCtrl',
+        require: 'uiGrid',
+        link: function(scope, element, attr, uiGridCtrl){
+          function addValidator(str){
+            return str.replace('<input', '<input live-validator');
+          }
+          
+          var formElement = $compile(angular.element('<ngForm name="' + attr.uiGrid + '.validations.gridForm"></ngForm>'))(scope);
+          element.append(formElement);
+          
+          // edit the default template
+          $templateCache.put('ui-grid/cellEditor', addValidator($templateCache.get('ui-grid/cellEditor')));
+            
+          // change the custom edit templates if any - might need to take special care with "select" etc. which might actually have their own logics (in the case of croos-grid validation - e.g. can't choose the same value twice)
+          angular.forEach(uiGridCtrl.grid.options.columnDefs, function(column){
+            if (angular.isDefined(column.editableCellTemplate) && column.editableCellTemplate.indexOf('input') > -1){
+              column.editableCellTemplate = addValidator(column.editableCellTemplate);
+            }
+          })
+        }
+      }
+    };
+
+    function liveValidator(uiGridValidateService){
+      return {
+        restrict: 'A',
+        controllerAs: 'liveValidatorCtrl',
+        require: 'ngModel',
+        controller: function(){
+          
+        },
+        link: function($scope, $element, $attr, ngModel){
+          // this method would track the change in the input's value and do the validation for it
+          function validationParser(viewValue){
+            var grid = $scope.grid;
+            var row = $scope.row;
+            var col = $scope.col;
+            var service = uiGridValidateService;
+            console.log(oldValue);
+            
+            service.runValidators(row.entity, col.colDef, viewValue, oldValue, grid);
+            setTimeout(function(){
+              var invalid = service.isInvalid(row.entity, col.colDef);
+              // TODO::get what failed or passed - what validator?
+              //grid.options.validations.gridForm.$setValidity(row.entity.$$hashkey + '_' + col.name + '_' + 'whatDidntPass', invalid);
+              invalid?cellElement.addClass('error'):cellElement.removeClass('error');
+              
+            }, 250);
+            
+            return viewValue;
+          }
+          
+          function keepOldValue(viewValue){
+            oldValue = viewValue;
+            return viewValue;
+          }
+          
+          var oldValue;
+          var check = false;
+          var cellElement = $element;
+          while (!check){
+            cellElement = cellElement.parent();
+            if (cellElement.hasClass('ui-grid-cell')){
+              check = true;
+            }
+          }
+          //TODO::probably need to do something in element.on('$destroy').
+          // Like nullify some vars and remove the error (since this is handled by the validator itself)
+          ngModel.$parsers.push(validationParser);
+          ngModel.$formatters.push(keepOldValue);
+        }
+      }
+    }
+
 })();

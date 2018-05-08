@@ -7,9 +7,9 @@
       .module('app')
       .controller('teamCtrlAs', teamCtrlAs);
 
-  teamCtrlAs.$inject = ['$scope','teamService','uiGridConstants'];
+  teamCtrlAs.$inject = ['$scope','teamService','uiGridConstants','uiGridGroupingConstants','$timeout'];
 
-  function teamCtrlAs($scope,teamService,uiGridConstants) {
+  function teamCtrlAs($scope,teamService,uiGridConstants,uiGridGroupingConstants,$timeout) {
     /* jshint validthis:true */
     var vm = this;
     vm.title = 'Team Resources';
@@ -17,12 +17,13 @@
                 data:[]};
     vm.grid = {
       columns: [
-        { name:'Resource', field: 'member',pinnedLeft:true,width:'175'}, //,grouping: { groupPriority: 0 }},
-        { name: 'Board', field: 'boardName', pinnedLeft:true,width:'250' }
+        { name:'Resource', field: 'member',width:'175'}, //,pinnedLeft:true ,grouping: { groupPriority: 1 }
+        { name: 'Board', field: 'boardName',width:'250' }
         
       ]
     }
     vm.updateSetting = updateSetting;
+    vm.percentUtilization = percentUtilization;
     vm.hka_reportingstart = new Date();
     vm.hka_reportingfinish = moment().add(6,'months'); //new Date();
     
@@ -30,6 +31,7 @@
       enableGridMenu: true,
       showGridFooter: true,
       enableSorting: true,
+      treeRowHeaderAlwaysVisible: false,
       enableFiltering: true,
       enableRowSelection: true,
       groupingShowGroupingMenu: true,
@@ -61,6 +63,11 @@
     
     function registerGrid(gridApi) {
       vm.myGridApi = gridApi;
+
+      $timeout(function(){
+        vm.myGridApi.grouping.clearGrouping();
+        vm.myGridApi.grouping.groupColumn('Resource');
+      },500)
     }
     
     function selectionChanged(rowChanged) {
@@ -71,14 +78,13 @@
       console.log("team.controller>updateSetting"); 
       vm.model.timeValues = teamService.getMonthsArray(vm.hka_reportingstart,vm.hka_reportingfinish);
       vm.grid.columns = [
-        { name:'Resource', field: 'member',pinnedLeft:true,width:'175'}, //,grouping: { groupPriority: 0 }},
-        { name: 'Board', field: 'boardName', pinnedLeft:true,width:'250' }
+        { name:'Resource', field: 'member',width:'175'}, //,grouping: { groupPriority: 0 }},
+        { name: 'Board', field: 'boardName',width:'250' }
         
       ];
       resetColumns();
       vm.GridOptions.columnDefs = vm.grid.columns;
       vm.myGridApi.core.notifyDataChange( uiGridConstants.dataChange.ALL );
-      
     }
     
     function resetColumns () {
@@ -89,10 +95,31 @@
                                 ,field: vm.model.timeValues[c]
                                 ,type: 'number',
                                 width: '90',
-                                aggregationType: uiGridConstants.aggregationTypes.sum
+                                //aggregationType:  uiGridConstants.aggregationTypes.sum
+                                //,treeAggregationType: uiGridGroupingConstants.aggregation.
+                                treeAggregation: { type: uiGridGroupingConstants.aggregation.CUSTOM }, 
+                                customTreeAggregationFn: percentUtilization,
+                                customTreeAggregationFinalizerFn: percentUtilizationFinalize,
                                } );
         }
       }
+    }
+
+    function percentUtilization( aggregation, fieldValue, numValue, row ) {
+      if (!isNaN(numValue)) {
+        if (typeof(aggregation.value) === 'undefined') {
+          aggregation.value = numValue;
+        } else {
+          aggregation.value += numValue;
+        }
+      }
+      else {
+        aggregation.value += 0;
+      }
+    }
+    function percentUtilizationFinalize( aggregation ) {
+      aggregation.rendered = aggregation.value/40 * 100;
+      //console.dir(aggregation);
     }
   }
 })();

@@ -13,7 +13,6 @@
       var service = {
         model:{},
         init: init,
-        formatMilestones: formatMilestones,
         setupGantt: setupGantt
       }
 
@@ -33,49 +32,6 @@
         });
 
         return deferred.promise;
-      }
-      
-      function formatMilestones() {
-        console.log("sprintreport.service>formatMilestones - Reformatting milestones...");
-        var milestones = [];
-        
-        for (var i = 0; i < service.model.board.cards.length; i++) {
-          for(var j = 0; j < service.model.board.cards[i].pluginData.length; j++) {
-            var value = JSON.parse(service.model.board.cards[i].pluginData[j].value);
-
-            if('milestone_status' in value) {
-              service.model.board.cards[i]["isMilestone"] = true;
-              service.model.board.cards[i]["milestone_status"] = value.milestone_status;
-              service.model.board.cards[i]["milestone_start"] = value.milestone_start;
-              service.model.board.cards[i]["milestone_anticipated"] = value.milestone_anticipated;
-              service.model.board.cards[i]["milestone_actual"] = value.milestone_actual;
-              if (value.milestone_actual == "") {
-                service.model.board.cards[i]["milestone_state"] = "Pending";
-              } else {
-                service.model.board.cards[i]["milestone_state"] = "Complete";
-              }
-              
-              var milestone = {c:[
-                {v: service.model.board.cards[i].id},
-                {v: service.model.board.cards[i].name},
-                {v: service.model.board.cards[i].name},
-                {v: new Date(value.milestone_start)},
-                {v: new Date(value.milestone_anticipated)},
-                {v: null},
-                {v: 0},
-                {v: null},
-              ]}
-              
-              if( value.milestone_actual ) {
-                milestone.c[5].v = 100;
-              }
-              
-              milestones.push(milestone);
-            }
-          }
-        }
-        
-        return milestones;
       }
       
       function setupGantt(){

@@ -2,8 +2,6 @@
 //console.log(token);
 Trello.setKey(apiKey);
 Trello.setToken(token);
-console.log(token);
-console.dir(Trello);
 
 (function () {
     'use strict';

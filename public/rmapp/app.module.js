@@ -17,7 +17,9 @@
       'ui.grid',
       'ui.grid.grouping',
       'ui.grid.selection',
+      'ui.grid.cellNav',
       'ui.grid.edit',
+      'ui.grid.validate',
       'ui.grid.pinning',
       'oc.lazyLoad',
       'ng-showdown'
