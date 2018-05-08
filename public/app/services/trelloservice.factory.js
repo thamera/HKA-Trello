@@ -2,6 +2,8 @@
 //console.log(token);
 Trello.setKey(apiKey);
 Trello.setToken(token);
+console.log(token);
+console.dir(Trello);
 
 (function () {
     'use strict';
@@ -143,7 +145,7 @@ Trello.setToken(token);
 
         function getBoard(id, getComments, options) {
             var deferred = $q.defer();
-            var boardOptions = { lists: 'open', cards: 'all', pluginData: 'true', card_pluginData: 'true', card_checklists: 'all' };
+            var boardOptions = { lists: 'open', cards: 'all', pluginData: 'true', card_pluginData: 'true', card_checklists: 'all', labels: 'all',members: 'all' };
             if (!$.isEmptyObject(options)) {
                 boardOptions = $.extend(boardOptions, options);
             }

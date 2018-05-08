@@ -1,76 +1,135 @@
 <!doctype html>
 <html ng-app="app" ng-csp>
 <head>
-    <title>HKA Trello Board App</title>
-    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
-    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  <title>HKA Trello Board App</title>
+  <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/boardapp.css" />
+  <link rel="stylesheet" href="https://cdn.rawgit.com/angular-ui/ui-select/v0.11.2/dist/select.css" />  
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" />
+  <style>
+    .ui-grid-cell {
+      overflow: visible;
+      z-index: 99999;
+    }
+    .ui-grid-cell, ui-select-wrap {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Make sure the container doesn't shrink too small */
+    .ui-select-container {
+      min-width: 150px;
+    }
+  </style>
 </head>
 <body ng-controller="checklistCtrlAs as vm">
-    <header class="">
-        <div class="container">
-            <div class="row spacer">
-                <div class="col-md-12">
-                    heading 
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="container-fluid spacer">
-        <div class="row">
-            <section class="col-xs-12 col-sm-12 fade-back">
-              <div class="view-content">
-                
-              
-                <h2 class="text-center">
-                  {{vm.title}}
-                </h2>
-                <div class="row">
-                  <div class="checklistGrid">
-                    <div ui-grid="vm.checklistGridOptions" ui-grid-grouping ui-grid-selection class=""></div>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 hill-buttons hill-buttons-list">
-                        <span>To List</span>
-                        <select class="form-control" ng-model="vm.model.selection.tolist" ng-change="vm.selectToList()">
-                            <option ng-repeat="list in vm.model.board.lists" value="{{list.id}}">{{list.name}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <button ng-disabled="vm.model.numberSelected == 0 || vm.model.selection.tolist == undefined" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">{{ vm.promiseMsg }}{{ vm.promiseIndex }}</button>
-                    </div>
+  <header class="">
+      <div class="container">
+          <div class="row spacer">
+              <div class="col-md-12">
+                  heading 
+              </div>
+          </div>
+      </div>
+  </header>
+  <section class="container-fluid spacer">
+      <div class="row">
+          <section class="col-xs-12 col-sm-12 fade-back">
+            <div class="view-content">
+
+
+              <h2 class="text-center">
+                {{vm.title}}
+              </h2>
+              <div class="row">
+                <div class="checklistGrid">
+                  <div ui-grid="vm.checklistGridOptions" ui-grid-grouping ui-grid-selection ui-grid-edit class=""></div>
                 </div>
               </div>
-            </section>
-        </div>
-    </section>
-    <script type="text/javascript" src="scripts/key.js"></script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
-    <!-- Angular-->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
-    <!-- Angular Plugins -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
-    <!-- Angular App -->
-    <script src="app/checklist.module.js"></script>
-    <script src="app/services/trelloservice.factory.js"></script>
-    <!--<script src="app/services/chromestorage.service.js"></script>
-    <script src="app/services/customsettings.service.js"></script>
-    <script src="app/services/filereader.factory.js"></script>
-    <script src="app/shared/dircontroller.js"></script>-->
-    <script src="app/checklists/checklist.controller.js"></script>
-    <script src="app/checklists/checklist.service.js"></script>
-    <!--<script src="app/trellosettings/trellosettings.controller.js"></script>-->
+              <!--
+              <div class="row">
+                  <div class="col-xs-12 col-sm-4 hill-buttons hill-buttons-list">
+                      <span>To List</span>
+                      <select class="form-control" ng-model="vm.model.selection.tolist" ng-change="vm.selectToList()">
+                          <option ng-repeat="list in vm.model.board.lists" value="{{list.id}}">{{list.name}}</option>
+                      </select>
+                  </div>
+              </div>
+              -->
+              <div class="row">
+                  <div class="col-md-12">
+                      <button ng-disabled="vm.model.numberSelected == 0" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">{{ vm.promiseMsg }}{{ vm.promiseIndex }}</button>
+                    <!--<button ng-disabled="vm.model.numberSelected == 0 || vm.model.selection.tolist == undefined" ng-click="vm.getSelected()" class="btn btn-default hill-buttons-submit">{{ vm.promiseMsg }}{{ vm.promiseIndex }}</button>-->
+                  </div>
+              </div>
+            </div>
+          </section>
+      </div>
+  </section>
+  <script type="text/javascript" src="scripts/key.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+  <!-- Angular-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+  <!-- Angular Plugins -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="https://cdn.rawgit.com/angular-ui/ui-select/v0.11.2/dist/select.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+  <!-- Angular App -->
+  <script src="app/checklist.module.js"></script>
+  <script src="app/services/trelloservice.factory.js"></script>
+  <!--<script src="app/services/chromestorage.service.js"></script>
+  <script src="app/services/customsettings.service.js"></script>
+  <script src="app/services/filereader.factory.js"></script>
+  <script src="app/shared/dircontroller.js"></script>-->
+  <script src="app/checklists/checklist.controller.js"></script>
+  <script src="app/checklists/checklist.service.js"></script>
+  <!--<script src="app/trellosettings/trellosettings.controller.js"></script>-->
+  
+  <script type="text/ng-template" id="uiSelect">
+      <ui-select-wrap>
+        <ui-select ng-model="MODEL_COL_FIELD" theme="select2" ng-disabled="disabled" append-to-body="true">
+          <ui-select-match placeholder="Choose...">{{ COL_FIELD.name }}</ui-select-match>
+          <ui-select-choices repeat="item in col.colDef.editDropdownOptionsArray | filter: $select.search">
+            <span>{{ item.name }}</span>
+          </ui-select-choices>
+        </ui-select>
+      </ui-select-wrap>
+  </script>
+  
+  <script type="text/ng-template" id="uiSelectMulti">
+    <ui-select-wrap>
+      <ui-select multiple ng-model="MODEL_COL_FIELD" theme="select2" ng-disabled="disabled" append-to-body="true">
+        <ui-select-match placeholder="Choose...">{{ $item.name }}</ui-select-match>
+        <ui-select-choices repeat="item in col.colDef.editDropdownOptionsArray | filter: $select.search">
+          <span>{{ item.name }}</span>
+        </ui-select-choices>
+      </ui-select>
+    </ui-select-wrap>
+  </script>
+  <script type="text/ng-template" id="uiSelectMembers">
+    <ui-select-wrap>
+      <ui-select multiple ng-model="MODEL_COL_FIELD" theme="select2" ng-disabled="disabled" append-to-body="true">
+        <ui-select-match placeholder="Choose...">{{ $item.fullName }}</ui-select-match>
+        <ui-select-choices repeat="item in col.colDef.editDropdownOptionsArray | filter: $select.search">
+          <span>{{ item.fullName }}</span>
+        </ui-select-choices>
+      </ui-select>
+    </ui-select-wrap>
+  </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html ng-app="app" ng-csp>
   <head>
     <link rel="stylesheet" href="https://trello.com/power-ups/power-up.css">
     <style>
@@ -6,7 +7,7 @@
     </style>
     <script src="https://trello.com/power-ups/power-up.min.js"></script>
   </head>
-  <body>
+  <body ng-controller="milestoneCtrlAs as vm">
     <form id="milestoneForm">
       <label for="milestoneStatus">Status</label>
       <select name="milestoneStatus" id="milestoneStatus">
@@ -21,9 +22,22 @@
       <input type="date" id="anticipatedDate">
       <label for="actualDate">Actual Completion:</label>
       <input type="date" id="actualDate">
+      <label for="milestoneParent">Parent Task</label>
+      <select name="milestoneParent" id="milestoneParent">
+      </select>
+      <label for="milestonePredecessor">Predecessor</label>
+      <select name="milestonePredecessor" id="milestonePredecessor">
+      </select>
       <br />
       <button type="submit" class="mod-primary">Save</button>
     </form>
+    <script type="text/javascript" src="scripts/key.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
+    <!-- Angular-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
     <script src="./js/milestoneinfo.js"></script>
+    <script src="app/services/trelloservice.factory.js"></script>
   </body>
 </html>
