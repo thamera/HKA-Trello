@@ -8,32 +8,37 @@
     <script src="https://trello.com/power-ups/power-up.min.js"></script>
   </head>
   <body ng-controller="milestoneCtrlAs as vm">
-    <form id="milestoneForm">
-      <label for="milestoneStatus">Status</label>
-      <select name="milestoneStatus" id="milestoneStatus">
+    <form id="milestoneForm">      
+      <label for="milestoneStatus2">Status</label>
+      <select name="milestoneStatus2" id="milestoneStatus2" ng-model="vm.model.card.milestone_status"> <!--ng-model="board.hka_">-->
         <option>On Track</option>
         <option>At Risk</option>
         <option>Behind Schedule</option>
         <option>Defered/On Hold</option>
       </select>
-      <label for="startDate">Start Date:</label>
-      <input type="date" id="startDate">
-      <label for="anticipatedDate">Anticipated Completion:</label>
-      <input type="date" id="anticipatedDate">
-      <label for="actualDate">Actual Completion:</label>
-      <input type="date" id="actualDate">
+      <label for="startDate2">Start Date:</label>
+      <input type="date" id="startDate2" ng-model="vm.model.card.milestone_start">
+      <label for="anticipatedDate2">Anticipated Completion:</label>
+      <input type="date" id="anticipatedDate2" ng-model="vm.model.card.milestone_anticipated">
+      <label for="actualDate2">Actual Completion:</label>
+      <input type="date" id="actualDate2" ng-model="vm.model.card.milestone_actual">
       <label for="milestoneParent">Parent Task</label>
-      <select name="milestoneParent" id="milestoneParent">
+      <select name="milestoneParent" id="milestoneParent" ng-model="vm.model.card.milestone_parent">
+        <option value="">--None--</option>
+        <option ng-repeat="card in vm.model.board.cards | filter: {isMilestone: true} | orderBy: 'pos'" value="{{card.id}}">{{card.name}}</option>
       </select>
       <label for="milestonePredecessor">Predecessor</label>
-      <select name="milestonePredecessor" id="milestonePredecessor">
+      <select name="milestonePredecessor" id="milestonePredecessor" ng-model="vm.model.card.milestone_predecessor">
+        <option value="">--None--</option>
+        <option ng-repeat="card in vm.model.board.cards | filter: {isMilestone: true} | orderBy: 'pos'" value="{{card.id}}">{{card.name}}</option>
       </select>
       <br />
-      <button type="submit" class="mod-primary">Save</button>
+      <button type="button" class="mod-primary" ng-click="vm.save()">Save</button>
     </form>
     <script type="text/javascript" src="scripts/key.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script type="text/javascript" src="https://trello.com/1/client.js?key=2aa92cafd38af541fd512aa516050986"></script>
     <!-- Angular-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
