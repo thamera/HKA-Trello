@@ -59,7 +59,7 @@
                 ],
                 children: []
               }
-              console.dir(service.model.board.cards[i]);
+              //console.dir(service.model.board.cards[i]);
               
               if( value.milestone_actual ) {
                 milestone.tasks[0].to = new Date(value.milestone_anticipated);
@@ -89,7 +89,7 @@
             }
           }
         }
-        console.dir(milestones);
+        //console.dir(milestones);
         return milestones;
       }
       
