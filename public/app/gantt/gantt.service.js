@@ -42,16 +42,23 @@
             var value = JSON.parse(service.model.board.cards[i].pluginData[j].value);
 
             if('milestone_status' in value) {
-              var milestone = { name: service.model.board.cards[i].name, tasks:[
-                  {name:service.model.board.cards[i].name,
+              var milestone = { name: service.model.board.cards[i].name,
+                cardId: service.model.board.cards[i].id,
+                tasks:[
+                  {id:service.model.board.cards[i].id,
+                    name:service.model.board.cards[i].name,
                     color: statusColors(value.milestone_status), //'#9FC5F8',
                     from: new Date(value.milestone_start),
                     to: new Date(value.milestone_anticipated),
                     cardId: service.model.board.cards[i].id,
                     content: statusIcon(value.milestone_status) + value.milestone_status,
-                    status: value.milestone_status
+                    status: value.milestone_status,
+                    dependencies: [],
+                    groups: [],
                   }
-                ]}
+                ],
+                children: []
+              }
               console.dir(service.model.board.cards[i]);
               
               if( value.milestone_actual ) {
@@ -59,11 +66,30 @@
                 milestone.tasks[0].progress = { percent: 100, color: "#407bff"};
               }
               
+              if( value.milestone_parent && value.milestone_parent !== '')
+              {
+                milestone.parent = value.milestone_parent;
+              }
+              
+              if( value.milestone_predecessor && value.milestone_predecessor !== '')
+              {
+                milestone.tasks[0].dependencies.push({'from': value.milestone_predecessor});
+              }
+              
               milestones.push(milestone);
             }
           }
         }
-        
+        for (var m = 0; m < milestones.length; m++){
+          if(milestones[m].parent) {
+            for (var p = 0; p < milestones.length; p++) {
+              if(milestones[p].cardId == milestones[m].parent) {
+                milestones[p].children.push(milestones[m].name);
+              }
+            }
+          }
+        }
+        console.dir(milestones);
         return milestones;
       }
       

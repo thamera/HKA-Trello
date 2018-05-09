@@ -173,11 +173,26 @@ var sendToFreshdeskButtonCallback = function(t){
 }
 
 var milestoneCardButtonCallback = function(t){
-  return t.popup({
-	  title: "Milestone Data",
-	  url: 'milestoneinfo.html',
-    height: 500
-	});
+  return t.get('member','private','token')
+  .then(function(token){
+    if (!token) {
+     return t.modal({
+       title: 'Authorize HKA Trello App',
+       args: { apiKey: TRELLOKEY }, // Pass in API key to the iframe
+       url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
+       height: 500,
+       fullscreen:true,
+       accentColor: '#3A96A3'
+     });
+    } else {
+      return t.popup({
+        title: "Milestone Data",
+        url: 'milestoneinfo.html',
+        height: 500,
+        args: {apiKey: TRELLOKEY, apiToken: token}
+      });
+    }
+  });
 }
 
 var riskCardButtonCallback = function(t){
@@ -257,7 +272,7 @@ var cardDetailBadgesSetup = function(t, options){
             text: cardData.milestone_start,
             color: statusColor
           })    
-        }  
+        }
         if (cardData.milestone_anticipated != undefined) {
           badges.push({
             //icon: BLACK_ROCKET_ICON,
